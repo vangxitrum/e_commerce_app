@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/order_mangaerment_screen.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/product_managerment_screen.dart';
+import 'package:se346/Screens/Login/login_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,23 +41,14 @@ class MyApp extends StatelessWidget {
                   Object? user = snapshot.data;
 
                   if(user == null) {
-                    return OverViewScreen();
+                    return WelcomeScreen();
                   }
                   else {
 
                   }
                 }
 
-                return Scaffold(
-                  body: Center(
-                    child: MaterialButton(
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                      },
-                      child: Text("Sign Out"),
-                    )
-                  ),
-                );
+                return OverViewScreen();
               },
             );
               //WelcomeScreen();
