@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:se346/components/text_field_container.dart';
 import 'package:se346/constants.dart';
 
-class RoundedUserField extends StatelessWidget {
+class RoundedSearchField extends StatelessWidget {
   final String hindText;
-  final IconData fieldIcon = Icons.person;
+  final IconData fieldIcon = Icons.search;
   final ValueChanged<String> onChanged;
-  const RoundedUserField({
+  const RoundedSearchField({
     Key? key,
     required this.hindText,
     required this.onChanged,
@@ -15,13 +15,13 @@ class RoundedUserField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      bgColor: kPrimaryLightColor,
-      w: 0.8,
+      bgColor: Colors.white24,
+      w: 0.7,
       child: TextField(
         onChanged: onChanged,
         decoration: InputDecoration(
           hintText: hindText,
-          icon: Icon(
+          suffixIcon: Icon(
             fieldIcon,
             color: kPrimaryColor,
           ),

@@ -3,7 +3,7 @@ import 'package:se346/components/text_field_container.dart';
 import 'package:se346/constants.dart';
 
 class RoundedPasswordField extends StatelessWidget {
-  bool _hide = false;
+  bool _hide = true;
   final String hindText;
   final IconData fieldIcon = Icons.lock;
   final IconData subfixIcon = Icons.visibility;
@@ -17,6 +17,8 @@ class RoundedPasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
+      bgColor: kPrimaryLightColor,
+      w: 0.8,
       child: TextField(
           onChanged: onChanged,
           decoration: InputDecoration(
