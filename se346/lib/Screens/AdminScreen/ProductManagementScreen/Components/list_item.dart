@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,10 +11,10 @@ import 'package:se346/components/rounded_button.dart';
 
 
 class ListItem extends StatefulWidget {
-  final int index;
+  final DocumentSnapshot product;
   const ListItem({
     Key? key,
-    required this.index,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -21,7 +24,7 @@ class ListItem extends StatefulWidget {
 class _ListItemState extends State<ListItem> {
   @override
   Widget build(BuildContext context) {
-    int _index = widget.index;
+    DocumentSnapshot _product = widget.product;
     Size size = MediaQuery.of(context).size;
     return Container(
           height: size.height * 0.1,
@@ -45,7 +48,7 @@ class _ListItemState extends State<ListItem> {
                         context,
                         MaterialPageRoute(
                             builder: (context) {
-                              return ProductInfoScreen(index: _index);
+                              return ProductInfoScreen(product: _product);
                             }
                         )
                       );
@@ -56,9 +59,7 @@ class _ListItemState extends State<ListItem> {
                           aspectRatio: 1/1,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              filteredList[_index].imgSrc,
-                            ),
+                            child: Image.network(_product['imgSrc']),
                           ),
                         ),
 
@@ -67,11 +68,10 @@ class _ListItemState extends State<ListItem> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 SizedBox(height: size.height * 0.015,),
-                                Text(filteredList[_index].name,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                                Text(_product['name'],overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
                                 SizedBox(height: size.height * 0.01,),
-                                Text("Amount: " + filteredList[_index].productAmount.toString()
-                                ),
-                                Text("Price: " + filteredList[_index].productPrice.toString()),
+                                Text("Amount: " + _product['amount'].toString()),
+                                Text("Price: " + _product['price'].toString()),
                               ],
                             )
                         ),
@@ -82,10 +82,10 @@ class _ListItemState extends State<ListItem> {
 
                 Row(
                   children: <Widget>[
-                    Switch(value: menuItem[_index].setState,
+                    Switch(value: _product['stop'],
                       onChanged: (bool newValue) {
-                        setState(() {
-                          menuItem[_index].setState = newValue;
+                        _product.reference.update({
+                          'stop': newValue
                         });
                       },),
                     IconButton(onPressed: (){}, icon: Icon(Icons.delete)),

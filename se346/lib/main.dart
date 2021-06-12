@@ -7,11 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
-import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
-import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
-import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
-import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
-import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,17 +43,34 @@ class MyApp extends StatelessWidget {
                   Object? user = snapshot.data;
 
                   if(user == null) {
-                    return WelcomeScreen();
+                    return WelcomeScreen();   //  login screen
                   }
                   else {
                     return StreamBuilder(
                       stream: adminList.snapshots(),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if(snapshot.hasData){
-                          print(snapshot.data!.docs.map((e) => Text(e['user'])));
-                          //return ListView(
-                            //children: snapshot.data!.docs.map((e) => ListTile(title: Text(e['user']),)).toList(),
-                          //);
+                          List<Text> listTxtAdmin = snapshot.data!.docs.map((e) => Text(e['user'])).toList();
+                          bool isAdmin = false;
+                          for(int i = 0; i < listTxtAdmin.length; i++){
+                            if(listTxtAdmin[i].data == auth.currentUser!.email){
+                              print(listTxtAdmin[i]);
+                              isAdmin = true;
+                            }
+                          }
+                          if(isAdmin)
+                            return OverViewScreen();  //admin screen
+                          else
+                            return Scaffold(      //customer screen
+                              body: Center(
+                                child: MaterialButton(
+                                  child: Text("Log out"),
+                                  onPressed: (){
+                                    auth.signOut();
+                                  },
+                                ),
+                              ),
+                            );
                         }
                         return Center(
                           child: CircularProgressIndicator(),

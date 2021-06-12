@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/SideMenu.dart';
 import 'package:se346/Screens/AdminScreen/Components/screen_header.dart';
@@ -14,12 +16,13 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
+
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    filteredList = menuItem;
+    //filteredList = menuItem;
   }
 
   @override
@@ -37,26 +40,38 @@ class _BodyState extends State<Body> {
            ScreenHeader(
              scaffoldKey: _scaffoldKey,
              onChanged: (string){
-                      bool x;
-                      x = menuItem[0].productName.contains(string);
-                      setState(() {filteredList = menuItem.where(
-                        (u) => (u.productName.toLowerCase().contains(string.toLowerCase()))).toList();
-                      int y = filteredList.length;
-                      y;
+                bool x;
+                x = menuItem[0].productName.contains(string);
+                setState(() {filteredList = menuItem.where(
+                  (u) => (u.productName.toLowerCase().contains(string.toLowerCase()))).toList();
+                int y = filteredList.length;
+                y;
             });}
            ),
            SizedBox(height: size.height*0.05,),
            Flexible(
-                    child: Container(
-                      height: size.height*0.75,
-                      width: double.infinity,
-                      child: ListView.builder(
-                          itemCount: filteredList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListItem(index: index);
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('product').snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                  if(snapshot.hasData){
+                    return Container(
+                        height: size.height*0.75,
+                        width: double.infinity,
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return ListItem(product: snapshot.data!.docs[index]);
+                            }
+                        )
+                    );
                   }
-                            )
-                    )
+                  return Scaffold(
+                    body: Center(
+                      child: Text("Text"),
+                    ),
+                  );
+                }
+              )
             )
          ],
        ),
