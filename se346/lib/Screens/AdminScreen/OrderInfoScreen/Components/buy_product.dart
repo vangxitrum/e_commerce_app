@@ -18,7 +18,7 @@ class BuyProduct extends StatelessWidget {
     return RoundedContainer(
         height: size.height * 0.18 ,
         width: size.width * 0.9,
-        color: Colors.black12,
+        color: Colors.white,
         radius: 20,
         child: Column(
           children: [
