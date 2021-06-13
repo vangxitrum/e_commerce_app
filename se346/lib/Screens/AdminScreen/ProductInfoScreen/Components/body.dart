@@ -48,7 +48,7 @@ class _BodyState extends State<Body> {
               alignment: Alignment.topRight,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(_product['imgSrc']),
+                  image: NetworkImage(_product['imgSrc'],),
                   fit: BoxFit.cover,
                 ),
               ),

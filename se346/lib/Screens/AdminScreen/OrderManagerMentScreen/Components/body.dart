@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/SideMenu.dart';
 import 'package:se346/Screens/AdminScreen/Components/screen_header.dart';
@@ -26,8 +27,17 @@ class _BodyState extends State<Body> {
           children: <Widget>[
             SizedBox(height: 0.03 * size.height,),
             ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
-            SizedBox(height: 0.05 * size.height,),
-            OrderItem(),
+            SizedBox(height: 0.02 * size.height,),
+            Container(
+                width: size.width * 0.9,
+                height: size.height * 0.6,
+                child: ListView.builder(
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      return OrderItem();
+                    }
+                )
+            ),
           ],
         ),
       ),

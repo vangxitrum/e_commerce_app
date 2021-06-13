@@ -7,7 +7,11 @@ import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  final List<Product> productList;
+  const Body({
+    Key? key,
+    required this.productList,
+  }) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
@@ -126,10 +130,17 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
-            SizedBox(height: size.height *0.025,),
-            BuyProduct(product: menuItem[0], amount: 2),
-            SizedBox(height: size.height *0.025,),
-            BuyProduct(product: menuItem[1], amount: 2),
+            SizedBox(height: size.height *0.01,),
+            Container(
+              width: size.width,
+              height: size.height * 0.6,
+                child: ListView.builder(
+                    itemCount: widget.productList.length,
+                    itemBuilder: (context, index) {
+                      return BuyProduct(amount: 2,product:widget.productList[index],);
+                    }
+                )
+            ),
             SizedBox(height: size.height *0.025,),
             Padding(
               padding: EdgeInsets.only(left: size.width* 0.13,right: size.width* 0.13),

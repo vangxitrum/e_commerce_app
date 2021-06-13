@@ -15,7 +15,7 @@ class RoundedText extends StatelessWidget {
       height: size.height * 0.024,
       width: size.width * 0.22                                            ,
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.black12,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),

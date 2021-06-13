@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/OrderInfoScreen/order_info_screen.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/Components/rounded_text.dart';
+import 'package:se346/components/rounded_containter.dart';
 
 class OrderItem extends StatefulWidget {
   const OrderItem({Key? key}) : super(key: key);
@@ -24,78 +25,77 @@ class _OrderItemState extends State<OrderItem> {
             )
         );
       },
-      child: Container(
-          height: size.height * 0.17,
-          width: size.width * 0.9,
-          decoration: BoxDecoration(
-              color: Colors.black12,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10))
-          ),
-          child:
-          Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+      child: Column(
+        children: [
+          SizedBox(height: size.height * 0.01,),
+          RoundedContainer(
+              height: size.height * 0.17,
+              width: size.width * 0.9,
+              color: Colors.white,
+              radius: 20  ,
+              child:
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(size.height * 0.01),
+                        child:
+                        Column(
+                          children: [
+                            Text("User name",textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            SizedBox(height: size.height * 0.006,),
+                            RoundedText(text:"Success"),
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+                  SizedBox(height: size.height * 0.006,),
                   Padding(
-                    padding: EdgeInsets.all(size.height * 0.01),
+                    padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
                     child:
-                    Column(
+                    Row (
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("User name",textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                        SizedBox(height: size.height * 0.006,),
-                        RoundedText(text:"Success"),
+                        Text("Orders "),
+                        Text("Orders Time")
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
+                    child:
+                    Row (
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+
+                        Text("Orders Code"),
+                        Text("Orders Id")
+                      ],
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
+                      child:
+                      Row (
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Total"),
+                          Text("Order cost")
+                        ],
+                      )
+                  ),
+
+
 
                 ],
-              ),
-              SizedBox(height: size.height * 0.006,),
-              Padding(
-                padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                child:
-                Row (
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Orders "),
-                    Text("Orders Time")
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                child:
-                Row (
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-
-                    Text("Orders Code"),
-                    Text("Orders Id")
-                  ],
-                ),
-              ),
-              Padding(
-                  padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                  child:
-                  Row (
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Total"),
-                      Text("Order cost")
-                    ],
-                  )
-              ),
-
-
-
-            ],
-          )
-      ),
+              )
+          ),
+        ],
+      )
     );
   }
 }
