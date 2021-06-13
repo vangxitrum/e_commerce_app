@@ -126,10 +126,11 @@ class _BodyState extends State<Body> {
                 ],
               ),
             ),
+            SizedBox(height: size.height *0.025,),
             BuyProduct(product: menuItem[0], amount: 2),
-            SizedBox(height: size.height *0.02,),
+            SizedBox(height: size.height *0.025,),
             BuyProduct(product: menuItem[1], amount: 2),
-            SizedBox(height: size.height *0.02,),
+            SizedBox(height: size.height *0.025,),
             Padding(
               padding: EdgeInsets.only(left: size.width* 0.13,right: size.width* 0.13),
               child:Row(

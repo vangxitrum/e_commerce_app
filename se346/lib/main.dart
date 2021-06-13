@@ -1,20 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:se346/Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
-import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/order_mangaerment_screen.dart';
-import 'package:se346/Screens/AdminScreen/ProductManagementScreen/product_managerment_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
+final FirebaseAuth auth = FirebaseAuth.instance;
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> fbApp = Firebase.initializeApp();
+  final CollectionReference adminList = FirebaseFirestore.instance.collection('admin');
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -34,32 +37,56 @@ class MyApp extends StatelessWidget {
           }
           else if(snaphost.hasData) {
             return StreamBuilder(
-              stream: FirebaseAuth.instance.authStateChanges(),
+              stream: auth.authStateChanges(),
               builder: (context, snapshot){
                 if(snapshot.connectionState == ConnectionState.active) {
                   Object? user = snapshot.data;
 
                   if(user == null) {
-                    return OverViewScreen();
+                    return OverViewScreen();   //  login screen
                   }
                   else {
-
+                    return StreamBuilder(
+                      stream: adminList.snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if(snapshot.hasData){
+                          List<Text> listTxtAdmin = snapshot.data!.docs.map((e) => Text(e['user'])).toList();
+                          bool isAdmin = false;
+                          for(int i = 0; i < listTxtAdmin.length; i++){
+                            if(listTxtAdmin[i].data == auth.currentUser!.email){
+                              print(listTxtAdmin[i]);
+                              isAdmin = true;
+                            }
+                          }
+                          if(isAdmin)
+                            return OverViewScreen();  //admin screen
+                          else
+                            return Scaffold(      //customer screen
+                              body: Center(
+                                child: MaterialButton(
+                                  child: Text("Log out"),
+                                  onPressed: (){
+                                    auth.signOut();
+                                  },
+                                ),
+                              ),
+                            );
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },);
                   }
                 }
 
                 return Scaffold(
                   body: Center(
-                    child: MaterialButton(
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                      },
-                      child: Text("Sign Out"),
-                    )
+                      child: Text("Loading...")
                   ),
                 );
               },
             );
-              //WelcomeScreen();
+              //;
           }
           else {
             return Center(

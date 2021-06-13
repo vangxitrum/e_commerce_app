@@ -1,17 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/text_field_editor.dart';
-import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/list_item.dart';
-import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
 import 'package:se346/components/image_button.dart';
 import 'package:se346/constants.dart';
 
 
 class Body extends StatefulWidget {
-  final int index;
+  final DocumentSnapshot product;
 
   const Body({
     Key? key,
-    required this.index,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -19,10 +18,13 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late String Name = "";
+  late int Amount = 0;
+  late int Price = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    int index = widget.index;
+    DocumentSnapshot _product = widget.product;
     return Container(
       height: size.height,
       width: size.width,
@@ -46,11 +48,9 @@ class _BodyState extends State<Body> {
               alignment: Alignment.topRight,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(menuItem[index].imgSrc),
+                  image: NetworkImage(_product['imgSrc']),
                   fit: BoxFit.cover,
-
                 ),
-
               ),
             ),
           ),
@@ -64,13 +64,26 @@ class _BodyState extends State<Body> {
                   child: Column(
                     children: [
                       SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(label: "Name", text:menuItem[index].productName, onChanged: (value){
-                        menuItem[index].productName = value;
-                      }),
+                      TextFieldEditor(label: "Name",
+                          text: _product['name'],
+                          onChanged: (value){
+                            Name = value;
+                            print(Name);
+                          }),
                       SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(label: "Amount", text: menuItem[index].productAmount.toString(), onChanged: (value){}),
+                      TextFieldEditor(
+                          label: "Amount",
+                          text: _product['amount'].toString(),
+                          onChanged: (value){
+                            Amount = int.parse(value);
+                          }),
                       SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(label: "Price", text: menuItem[index].productPrice.toString() + '\$', onChanged: (value){}),
+                      TextFieldEditor(
+                          label: "Price",
+                          text: _product['price'].toString(),
+                          onChanged: (value){
+
+                          }),
                       SizedBox(height: size.height*0.02,),
                     ],
                   )
@@ -81,15 +94,24 @@ class _BodyState extends State<Body> {
               child:Row(
                 children: [
                   FlatButton(
-                    onPressed: (){},
-                    child: Text("save"),
+                    onPressed: () {
+                      print(Name);
+                      _product.reference.update({
+                        'name': Name != ""? Name : _product['name'],
+                        'amount' : Amount != 0? Amount : _product['amount'],
+                        'price' : Price != 0? Price : _product['price']
+                      }).then((value) => print("User Updated"))
+                        .catchError((error) => print("Failed to update user: $error"));
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Save"),
                     color: kPrimaryLightColor,
                     minWidth: size.width * 0.5,
                     height: size.height*0.08,
                   ),
                   FlatButton(
                       onPressed: (){},
-                      child: Text("delete"),
+                      child: Text("Delete"),
                       minWidth: size.width * 0.5,
                       height: size.height*0.08
                   ),
