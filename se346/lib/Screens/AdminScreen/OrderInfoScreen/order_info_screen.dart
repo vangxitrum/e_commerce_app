@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/OrderInfoScreen/Components/Body.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
 
 class OrderInfoScreen extends StatefulWidget {
-  const OrderInfoScreen({Key? key}) : super(key: key);
+  final DocumentSnapshot order;
+  const OrderInfoScreen({
+    required this.order,
+    Key? key}) : super(key: key);
 
   @override
   _OrderInfoScreenState createState() => _OrderInfoScreenState();
@@ -12,7 +16,6 @@ class OrderInfoScreen extends StatefulWidget {
 class _OrderInfoScreenState extends State<OrderInfoScreen> {
   @override
   Widget build(BuildContext context) {
-    List<Product> list = [menuItem[0],menuItem[2],menuItem[0],menuItem[2]];
-    return Body(productList: list,);
+    return Body(order: widget.order,);
   }
 }

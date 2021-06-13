@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/OrderInfoScreen/Components/buy_product.dart';
@@ -7,16 +8,19 @@ import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
 
 class Body extends StatefulWidget {
-  final List<Product> productList;
+  final DocumentSnapshot order;
   const Body({
     Key? key,
-    required this.productList,
+    required this.order,
   }) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
 }
 
+late List<DocumentSnapshot> listOrderProduct = [];
+
+//late List<DocumentSnapshot> listProduct= [];
 class _BodyState extends State<Body> {
   String selectedStatus = "Waiting";
   List OrderStatus = ["Waiting","Cancel","Success"];
@@ -28,134 +32,160 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-      height: size.height,
-      width: double.infinity,
-      color: Colors.white70,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                ImageButton(
-                    icnSrc: "assets/icons/back.svg",
-                    press: (){
-                      Navigator.pop(context);}),
-              ],
-            ),
-            RoundedContainer(
-              height: size.height * 0.23,
-              width: size.width * 0.9,
-              color: Colors.white,
-              radius: 20,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(size.height * 0.01),
-                        child:
-                        Column(
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('orderInfo').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if(snapshot.hasData){
+          listOrderProduct.clear();
+          print(widget.order['id']);
+
+          listOrderProduct = snapshot.data!.docs.where((u) => (
+              u['idOrder'] == widget.order['id']
+          )).toList();
+          return Scaffold(
+              body: Container(
+                  height: size.height,
+                  width: double.infinity,
+                  color: Colors.white70,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
                           children: [
-                            Text("Order Information",textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                            SizedBox(height: size.height * 0.006,),
+                            ImageButton(
+                                icnSrc: "assets/icons/back.svg",
+                                press: (){
+                                  Navigator.pop(context);}),
                           ],
                         ),
-                      ),
+                        RoundedContainer(
+                          height: size.height * 0.23,
+                          width: size.width * 0.9,
+                          color: Colors.white,
+                          radius: 20,
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(size.height * 0.01),
+                                    child:
+                                    Column(
+                                      children: [
+                                        Text("Order Information",textAlign: TextAlign.center, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                        SizedBox(height: size.height * 0.006,),
+                                      ],
+                                    ),
+                                  ),
 
-                    ],
-                  ),
-                  SizedBox(height: size.height * 0.006,),
-                  Padding(
-                    padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                    child:
-                    Row (
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Contact "),
-                        Text("User contact")
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                    child:
-                    Row (
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Orders "),
-                        Text("Orders Time")
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                    child:
-                    Row (
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                                ],
+                              ),
+                              SizedBox(height: size.height * 0.006,),
+                              Padding(
+                                padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
+                                child:
+                                Row (
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Contact "),
+                                    Text("User contact")
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
+                                child:
+                                Row (
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Orders "),
+                                    Text("Orders Time")
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
+                                child:
+                                Row (
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
 
-                        Text("Orders Code"),
-                        Text("Orders Id")
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: size.height * 0.01,),
-                  Padding(
-                    padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
-                    child:
-                    Row (
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                                    Text("Orders Code"),
+                                    Text("Orders Id")
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.01,),
+                              Padding(
+                                padding: EdgeInsets.only(left: size.height * 0.01,bottom: size.height * 0.005,right:size.height * 0.01),
+                                child:
+                                Row (
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
 
-                        Text("Order Status",style: TextStyle(fontWeight: FontWeight.bold,),),
-                        DropdownButton(
-                          value: selectedStatus,
-                          onChanged: (newStatus){
-                            setState(() {
-                              selectedStatus = newStatus.toString();
-                            });
-                          },
-                          items: OrderStatus.map((valueItem){
-                            return DropdownMenuItem(
-                                value: valueItem,
-                                child: Text(valueItem),  );
-                        }).toList(),
+                                    Text("Order Status",style: TextStyle(fontWeight: FontWeight.bold,),),
+                                    DropdownButton(
+                                      value: selectedStatus,
+                                      onChanged: (newStatus){
+                                        setState(() {
+                                          selectedStatus = newStatus.toString();
+                                        });
+                                      },
+                                      items: OrderStatus.map((valueItem){
+                                        return DropdownMenuItem(
+                                          value: valueItem,
+                                          child: Text(valueItem),  );
+                                      }).toList(),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: size.height *0.01,),
+                        Container(
+                            width: size.width,
+                            height: size.height * 0.6,
+                            child: StreamBuilder(
+                              stream: FirebaseFirestore.instance.collection('product').snapshots(),
+                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if(!snapshot.hasData)
+                                  return Center(
+                                    child: Text("None"),
+                                  );
+                                return ListView.builder(
+                                  itemCount: listOrderProduct.length,
+                                  itemBuilder: (context, index) {
+                                    DocumentSnapshot product = snapshot.data!.docs.where((element) => (
+                                        element['idProduct'] == listOrderProduct[index]['idProduct']
+                                    )).first;
+                                    return BuyProduct(orderInfo: listOrderProduct[index], product: product,);
+                                  }
+                                );
+                              }
+                            )
+                        ),
+                        SizedBox(height: size.height *0.025,),
+                        Padding(
+                          padding: EdgeInsets.only(left: size.width* 0.13,right: size.width* 0.13),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Total:",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                              Text("\$" + widget.order['total'].toString(), style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                            ],
+                          ),
                         )
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: size.height *0.01,),
-            Container(
-              width: size.width,
-              height: size.height * 0.6,
-                child: ListView.builder(
-                    itemCount: widget.productList.length,
-                    itemBuilder: (context, index) {
-                      return BuyProduct(amount: 2,product:widget.productList[index],);
-                    }
-                )
-            ),
-            SizedBox(height: size.height *0.025,),
-            Padding(
-              padding: EdgeInsets.only(left: size.width* 0.13,right: size.width* 0.13),
-              child:Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Total:",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-                  Text("\$" + "200",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
-                ],
-              ),
-            )
-          ],
-        ),
-      )
-      )
+                  )
+              )
+          );
+        }
+        return Text("None");
+      }
     );
   }
 }

@@ -3,29 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/OrderInfoScreen/order_info_screen.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/Components/rounded_text.dart';
 import 'package:se346/components/rounded_containter.dart';
+import 'package:intl/intl.dart';
 
 class OrderItem extends StatefulWidget {
-  const OrderItem({Key? key}) : super(key: key);
+  final DocumentSnapshot order;
+
+  const OrderItem({
+    required this.order,
+    Key? key}) : super(key: key);
 
   @override
   _OrderItemState createState() => _OrderItemState();
 }
 
+String dateTime(DateTime dt){
+  String formattedDate = DateFormat('dd-MM-yyyy').format(dt);
+  return formattedDate;
+}
+
 class _OrderItemState extends State<OrderItem> {
   @override
   Widget build(BuildContext context) {
+    DocumentSnapshot _order = widget.order;
     Size size = MediaQuery.of(context).size;
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('order').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if(snapshot.hasData)
         return GestureDetector(
           onTap: (){
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) {
-                      return OrderInfoScreen();
+                      return OrderInfoScreen(order: widget.order,);
                     }
                 )
             );
@@ -49,7 +56,7 @@ class _OrderItemState extends State<OrderItem> {
                             child:
                             Column(
                               children: [
-                                Text(snapshot.data!.docs[0]['user_name'],textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                Text(_order['user_name'],textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                 SizedBox(height: size.height * 0.006,),
                                 RoundedText(text:"Success"),
                               ],
@@ -65,7 +72,7 @@ class _OrderItemState extends State<OrderItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Orders "),
-                            Text("Orders Time")
+                            Text(dateTime(_order['time'].toDate()))
                           ],
                         ),
                       ),
@@ -77,7 +84,7 @@ class _OrderItemState extends State<OrderItem> {
                           children: [
 
                             Text("Orders Code"),
-                            Text("Orders Id")
+                            Text(_order['id'].toString())
                           ],
                         ),
                       ),
@@ -88,21 +95,15 @@ class _OrderItemState extends State<OrderItem> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Total"),
-                              Text("Order cost")
+                              Text(_order['total'].toString())
                             ],
                           )
                       ),
-
-
-
                     ],
                   )
               ),
             ],
           )
         );
-        return Text("None Data");
-      }
-    );
-  }
+    }
 }
