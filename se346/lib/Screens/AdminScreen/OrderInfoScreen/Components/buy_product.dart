@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
 import 'package:se346/components/rounded_containter.dart';
 
 class BuyProduct extends StatelessWidget {
-  final Product product;
+  final DocumentSnapshot product;
   final int amount;
   const BuyProduct({
     Key? key,
@@ -26,7 +27,7 @@ class BuyProduct extends StatelessWidget {
               padding: EdgeInsets.only(top:size.height * 0.02,left:size.height * 0.02),
               child:Row(
                 children: [
-                  Image.asset(product.imgSrc, width: size.height * 0.08, height:size.height * 0.08,),
+                  Image.asset(product['imgSrc'], width: size.height * 0.08, height:size.height * 0.08,),
                   SizedBox(width: size.height * 0.01,),
                   Container(
                     width: size.width * 0.6,
@@ -34,12 +35,12 @@ class BuyProduct extends StatelessWidget {
                     child:Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(product.productName,style:TextStyle(fontSize: 27)),
+                        Text(product['productName'],style:TextStyle(fontSize: 27)),
                         SizedBox(width: size.height * 0.03,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("\$" + product.productPrice.toString()),
+                            Text("\$" + product['productPrice'].toString()),
                             Text("x" + amount.toString())
                           ],
                         ),
@@ -48,10 +49,9 @@ class BuyProduct extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("subtotal"),
-                            Text("\$" + (amount * product.productPrice).toString())
+                            Text("\$" + (amount * product['productPrice']).toString())
                           ],
                         ),
-
                       ],
                     )
                   )

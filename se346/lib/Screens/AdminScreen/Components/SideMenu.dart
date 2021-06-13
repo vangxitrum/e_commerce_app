@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:se346/Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
@@ -7,15 +8,11 @@ import 'package:se346/Screens/AdminScreen/ProductManagementScreen/product_manage
 import 'package:se346/constants.dart';
 
 class SideMenu extends StatelessWidget {
-  final String username;
-  const SideMenu({
-    Key? key,
-    required this.username,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String username = FirebaseAuth.instance.currentUser!.email.toString();
     return Drawer(
       child: Container(
         color: kMenuBGColor,
@@ -34,7 +31,7 @@ class SideMenu extends StatelessWidget {
                     SizedBox(height: size.height * 0.04,),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child:Text(username,style: TextStyle(color: kMenuTextColor,fontSize: 25),),
+                      child:Text(username,style: TextStyle(color: kMenuTextColor, fontSize: 25), maxLines: 1,),
                     ),
                   ],
                 ),

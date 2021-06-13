@@ -22,60 +22,62 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    //filteredList = menuItem;
+    filteredList = menuItem;
   }
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference product = FirebaseFirestore.instance.collection('product');
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: SideMenu(username: "User Name"),
-      body: Container(
-       height: size.height,
-       width: double.infinity,
-       child: Column(
-         children: <Widget>[
-           SizedBox(height: size.height*0.03,),
-           ScreenHeader(
-             scaffoldKey: _scaffoldKey,
-             onChanged: (string){
-                bool x;
-                x = menuItem[0].productName.contains(string);
-                setState(() {filteredList = menuItem.where(
-                  (u) => (u.productName.toLowerCase().contains(string.toLowerCase()))).toList();
-                int y = filteredList.length;
-                y;
-            });}
-           ),
-           SizedBox(height: size.height*0.05,),
-           Flexible(
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('product').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                  if(snapshot.hasData){
-                    return Container(
-                        height: size.height*0.75,
-                        width: double.infinity,
-                        child: ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              return ListItem(product: snapshot.data!.docs[index]);
-                            }
-                        )
-                    );
-                  }
-                  return Scaffold(
-                    body: Center(
-                      child: Text("Text"),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('product').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if(snapshot.hasData){
+          menuItem.clear();
+          for(int i = 0; i < snapshot.data!.docs.length; i++){
+            menuItem.add(snapshot.data!.docs[i]);
+          }
+          return Scaffold(
+              key: _scaffoldKey,
+              drawer: SideMenu(),
+              body: Container(
+                height: size.height,
+                width: double.infinity,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: size.height*0.03,),
+                    ScreenHeader(
+                        scaffoldKey: _scaffoldKey,
+                        onChanged: (string)  {
+                          //print(string);
+                          filteredList.clear();
+                          //print("menuItem: " + menuItem.length.toString());
+                          setState(() {filteredList = snapshot.data!.docs.where(
+                                    (u) => (u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
+                            });
+                          print(filteredList.length);
+                        }
                     ),
-                  );
-                }
+                    SizedBox(height: size.height*0.05,),
+                    Flexible(
+                        child: Container(
+                            height: size.height*0.75,
+                            width: double.infinity,
+                            child: ListView.builder(
+                                itemCount: filteredList.length,
+                                itemBuilder: (context, index) {
+                                  return ListItem(product: filteredList[index]);
+                                }
+                            )
+                        )
+                    )
+                  ],
+                ),
               )
-            )
-         ],
-       ),
-      )
+          );
+        }
+        return Text("None data");
+      }
     );
   }
 }

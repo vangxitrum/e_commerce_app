@@ -7,6 +7,7 @@ import 'package:se346/Screens/AdminScreen/Components/SideMenu.dart';
 import 'package:se346/Screens/AdminScreen/Components/screen_header.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/order_mangaerment_screen.dart';
 import 'package:se346/components/rounded_containter.dart';
+import 'package:se346/main.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -38,7 +39,7 @@ class _BodyState extends State<Body> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SideMenu(username: "User Name"),
+      drawer: SideMenu(),
       body: Container(
         height: size.height,
         width: double.infinity,
