@@ -17,7 +17,8 @@ class Body extends StatefulWidget {
 }
 
 late List<Sale> data = [];
-late List<int> rng = [];
+late int totalRevenue = 0;
+late int waitingOrder = 0;
 
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -30,15 +31,21 @@ class _BodyState extends State<Body> {
   }
   List<Sale> getDataSale(List<DocumentSnapshot> list){
     List<Sale> listSale = [];
-    for(int index = 0; index < monthCount; index++){
+    waitingOrder = 0;
+    totalRevenue = 0;
+    for(int index = 0; index < DateTime.now().month; index++){
       late int total = 0;
       List<DocumentSnapshot> result = list.where((element) => (
-          element['time'].toDate().month == index + 1
+          element['time'].toDate().month == index + 1 &&
+          element['time'].toDate().year == DateTime.now().year
       )).toList();
-      if(result.length != 0){
-        result.forEach((element) {total += int.parse(element['total'].toString());});
-        listSale.add(Sale(total, index + 1));
-      }
+      result.forEach((element) {
+        total += int.parse(
+          element['total'].toString());
+        if(element['status'] == "Waiting") waitingOrder++;
+      });
+      totalRevenue += total;
+      listSale.add(Sale(total, index + 1));
     }
     return listSale;
   }
@@ -91,7 +98,8 @@ class _BodyState extends State<Body> {
                               SizedBox(height: size.width * 0.04,),
                               Text("Total revenue",style: TextStyle(fontWeight: FontWeight.bold,fontSize:23)),
                               SizedBox(height: size.width * 0.1,),
-                              Text("1000\$",style: TextStyle(fontSize: 20),)
+                              Text(totalRevenue.toString() + "\$",
+                                style: TextStyle(fontSize: 20),)
                             ],
                           ),
                           radius: 20),
@@ -112,7 +120,8 @@ class _BodyState extends State<Body> {
                                 SizedBox(height: size.width * 0.04,),
                                 Text("Waiting Order",style: TextStyle(fontWeight: FontWeight.bold,fontSize:23)),
                                 SizedBox(height: size.width * 0.1,),
-                                Text("10",style: TextStyle(fontSize: 20),)
+                                Text(waitingOrder.toString(),
+                                  style: TextStyle(fontSize: 20),)
                               ],
                             ),
                           ),

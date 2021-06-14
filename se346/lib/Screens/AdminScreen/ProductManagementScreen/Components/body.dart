@@ -30,7 +30,7 @@ class _BodyState extends State<Body> {
     CollectionReference product = FirebaseFirestore.instance.collection('product');
     Size size = MediaQuery.of(context).size;
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('product').snapshots(),
+      stream: FirebaseFirestore.instance.collection("product").orderBy("name", descending: false).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if(snapshot.hasData){
           menuItem.clear();
