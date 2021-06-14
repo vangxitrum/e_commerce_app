@@ -6,6 +6,7 @@ import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/Components/roun
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
 import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
+import 'package:intl/intl.dart';
 
 class Body extends StatefulWidget {
   final DocumentSnapshot order;
@@ -22,12 +23,13 @@ late List<DocumentSnapshot> listOrderProduct = [];
 
 //late List<DocumentSnapshot> listProduct= [];
 class _BodyState extends State<Body> {
-  String selectedStatus = "Waiting";
+  String selectedStatus = "";
   List OrderStatus = ["Waiting","Cancel","Success"];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    selectedStatus = widget.order['status'];
   }
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,6 @@ class _BodyState extends State<Body> {
         if(snapshot.hasData){
           listOrderProduct.clear();
           print(widget.order['id']);
-
           listOrderProduct = snapshot.data!.docs.where((u) => (
               u['idOrder'] == widget.order['id']
           )).toList();
@@ -78,7 +79,6 @@ class _BodyState extends State<Body> {
                                       ],
                                     ),
                                   ),
-
                                 ],
                               ),
                               SizedBox(height: size.height * 0.006,),
@@ -89,7 +89,7 @@ class _BodyState extends State<Body> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Contact "),
-                                    Text("User contact")
+                                    Text(widget.order['user_name'])
                                   ],
                                 ),
                               ),
@@ -100,7 +100,7 @@ class _BodyState extends State<Body> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Orders "),
-                                    Text("Orders Time")
+                                    Text(DateFormat('dd-MM-yyyy').format(widget.order['time'].toDate()))
                                   ],
                                 ),
                               ),
@@ -112,7 +112,7 @@ class _BodyState extends State<Body> {
                                   children: [
 
                                     Text("Orders Code"),
-                                    Text("Orders Id")
+                                    Text(widget.order['id'].toString())
                                   ],
                                 ),
                               ),
@@ -128,8 +128,9 @@ class _BodyState extends State<Body> {
                                     DropdownButton(
                                       value: selectedStatus,
                                       onChanged: (newStatus){
-                                        setState(() {
-                                          selectedStatus = newStatus.toString();
+                                        setState(() {selectedStatus = newStatus.toString();});
+                                        widget.order.reference.update({
+                                          'status': newStatus.toString()
                                         });
                                       },
                                       items: OrderStatus.map((valueItem){

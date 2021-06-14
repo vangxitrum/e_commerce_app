@@ -53,12 +53,11 @@ class _OrderItemState extends State<OrderItem> {
                         children: [
                           Padding(
                             padding: EdgeInsets.all(size.height * 0.01),
-                            child:
-                            Column(
+                            child: Column(
                               children: [
                                 Text(_order['user_name'],textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                 SizedBox(height: size.height * 0.006,),
-                                RoundedText(text:"Success"),
+                                RoundedText(text:_order['status']),
                               ],
                             ),
                           ),
