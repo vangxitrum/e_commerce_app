@@ -7,12 +7,17 @@ import 'package:se346/Screens/AdminScreen/ProductInfoScreen/product_info_screen.
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/product_managerment_screen.dart';
 import 'package:se346/constants.dart';
 
+const String avatarURL = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/avatar.png?alt=media&token=a8d5be3c-a233-466c-aae2-785ac05e741a";
+
 class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String username = FirebaseAuth.instance.currentUser!.email.toString();
+    String photoURL =
+      FirebaseAuth.instance.currentUser!.photoURL != null ?
+      FirebaseAuth.instance.currentUser!.photoURL.toString() : avatarURL;
     return Drawer(
       child: Container(
         color: kMenuBGColor,
@@ -26,7 +31,7 @@ class SideMenu extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Image.asset("assets/images/avatar.png"),
+                      child: Image.network(photoURL)
                     ),
                     SizedBox(height: size.height * 0.04,),
                     Align(
