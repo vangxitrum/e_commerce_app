@@ -57,10 +57,13 @@ class _ListItemState extends State<ListItem> {
                       children: <Widget>[
                         AspectRatio(
                           aspectRatio: 1/1,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(_product['imgSrc']),
-                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child:ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.network(_product['imgSrc'],height: size.width * 0.3,width: size.width * 0.3,),
+                            ),
+                          )
                         ),
 
                         AspectRatio(aspectRatio: 4/3,

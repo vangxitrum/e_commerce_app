@@ -1,21 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:se346/Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/order_mangaerment_screen.dart';
 import 'package:se346/Screens/AdminScreen/ProductInfoScreen/product_info_screen.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/product_managerment_screen.dart';
+import 'package:se346/Screens/AdminScreen/UserScreen/user_screen.dart';
 import 'package:se346/constants.dart';
 
 class SideMenu extends StatelessWidget {
-  final String username;
-  const SideMenu({
-    Key? key,
-    required this.username,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String username = FirebaseAuth.instance.currentUser!.email.toString();
     return Drawer(
       child: Container(
         color: kMenuBGColor,
@@ -29,12 +28,18 @@ class SideMenu extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Image.asset("assets/images/avatar.png"),
+                      child: CircleAvatar(
+                          radius: 30,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(45),
+                            child: Image.network("https://homepages.cae.wisc.edu/~ece533/images/airplane.png"),
+                          )
+                      ),
                     ),
                     SizedBox(height: size.height * 0.04,),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child:Text(username,style: TextStyle(color: kMenuTextColor,fontSize: 25),),
+                      child:Text(username,style: TextStyle(color: kMenuTextColor, fontSize: 25), maxLines: 1,),
                     ),
                   ],
                 ),
@@ -87,7 +92,16 @@ class SideMenu extends StatelessWidget {
               DrawerListTile(
                 title: "Profile",
                 svgSrc: "assets/icons/profile.svg",
-                press: () {},
+                press: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) {
+                            return UserScreen();
+                          }
+                      )
+                  );
+                },
               ),
             ],
           ),
