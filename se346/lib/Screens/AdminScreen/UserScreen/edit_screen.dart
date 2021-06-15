@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/text_field_editor.dart';
 import 'package:se346/components/image_button.dart';
@@ -37,14 +38,14 @@ class _EditScreenState extends State<EditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ProfileWidget(
-                      imagePath: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+                      imagePath: FirebaseAuth.instance.currentUser!.photoURL!,
                       onClicked: () {},
                       isEdit: true,
                     ),
                     SizedBox(height: size.height * 0.03),
                     TextFieldEditor(
                       label: 'Full Name',
-                      text: "user name",
+                      text: FirebaseAuth.instance.currentUser!.displayName!,
                       onChanged: (name) {},
                     ),
                     SizedBox(height: size.height * 0.03),

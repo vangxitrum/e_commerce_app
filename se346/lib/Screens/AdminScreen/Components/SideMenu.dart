@@ -16,10 +16,7 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String username = FirebaseAuth.instance.currentUser!.email.toString();
-    String photoURL =
-      FirebaseAuth.instance.currentUser!.photoURL != null ?
-      FirebaseAuth.instance.currentUser!.photoURL.toString() : avatarURL;
+    String username = FirebaseAuth.instance.currentUser!.displayName.toString();
     return Drawer(
       child: Container(
         color: kMenuBGColor,
@@ -35,10 +32,7 @@ class SideMenu extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: CircleAvatar(
                           radius: 30,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(45),
-                            child: Image.network("https://homepages.cae.wisc.edu/~ece533/images/airplane.png"),
-                          )
+                          child: ClipRRect(borderRadius: BorderRadius.circular(30), child: Image.network(FirebaseAuth.instance.currentUser!.photoURL!),)
                       ),
                     ),
                     SizedBox(height: size.height * 0.04,),

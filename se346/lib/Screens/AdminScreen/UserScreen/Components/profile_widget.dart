@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -15,7 +17,6 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
-
     return Center(
       child: Stack(
         children: [
@@ -29,14 +30,12 @@ class ProfileWidget extends StatelessWidget {
       ),
     );
   }
-
   Widget buildImage() {
-    final image = NetworkImage(imagePath);
     return ClipOval(
       child: Material(
         color: Colors.transparent,
         child: Ink.image(
-          image: image,
+          image: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!),
           fit: BoxFit.cover,
           width: 128,
           height: 128,
@@ -77,12 +76,12 @@ class ProfileWidget extends StatelessWidget {
 Widget buildName() => Column(
   children: [
     Text(
-      "user name",
+      FirebaseAuth.instance.currentUser!.displayName!,
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
     ),
     const SizedBox(height: 4),
     Text(
-      "user email",
+      FirebaseAuth.instance.currentUser!.email!,
       style: TextStyle(color: Colors.grey),
     )
   ],
