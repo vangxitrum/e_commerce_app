@@ -29,23 +29,25 @@ class _BodyState extends State<Body> {
             body: Container(
               width: size.width,
               height: double.infinity,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 0.03 * size.width,),
-                  ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
-                  SizedBox(height: 0.02 * size.height,),
-                  Container(
-                      width: size.width * 0.9,
-                      height: size.height * 0.6,
-                      child: ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            return OrderItem(order: snapshot.data!.docs[index]);
-                          }
-                      )
-                  ),
-                ],
-              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 0.03 * size.width,),
+                    ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
+                    SizedBox(height: 0.02 * size.height,),
+                    Container(
+                        width: size.width * 0.9,
+                        height: size.height * 0.6,
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return OrderItem(order: snapshot.data!.docs[index]);
+                            }
+                        )
+                    ),
+                  ],
+                ),
+              )
             ),
         );
         }

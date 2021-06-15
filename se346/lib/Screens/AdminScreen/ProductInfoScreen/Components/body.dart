@@ -46,11 +46,9 @@ class _BodyState extends State<Body> {
               height: size.height*0.2,
               width: size.height*0.2,
               alignment: Alignment.topRight,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(_product['imgSrc'],),
-                  fit: BoxFit.cover,
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(_product['imgSrc'],height: size.width * 0.4,width: size.width * 0.4,),
               ),
             ),
           ),

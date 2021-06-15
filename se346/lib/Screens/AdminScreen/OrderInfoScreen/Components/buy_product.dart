@@ -15,52 +15,58 @@ class BuyProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-      return Column(
-          children: [
-            SizedBox(height: size.height * 0.01,),
-            RoundedContainer(
-                height: size.height * 0.18,
-                width: size.width * 0.9,
-                color: Colors.white,
-                radius: 20,
-                child: Column(
+    return Column(
+      children: [
+        SizedBox(height: size.height * 0.01,),
+        RoundedContainer(
+            height: size.height * 0.18,
+            width: size.width * 0.9,
+            color: Colors.white,
+            radius: 20,
+            child: Column(
+              children: [
+                SizedBox(height: size.height * 0.02,),
+                Row(
                   children: [
-                    Row(
-                    children: [
-                      Image.network(product['imgSrc'], width: size.height * 0.08, height:size.height * 0.08,),
-                      SizedBox(width: size.height * 0.01,),
-                      Container(
-                          width: size.width * 0.6,
-                          height: size.height * 0.15,
-                          child:Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(product['name'],style:TextStyle(fontSize: 27)),
-                              SizedBox(width: size.height * 0.03,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("\$" + product['price'].toString()),
-                                  Text("x" + orderInfo['amount'].toString())
-                                ],
-                              ),
-                              Divider(color: Colors.white,thickness: 2,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("subtotal"),
-                                  Text("\$" + (orderInfo['amount'] * product['price']).toString())
-                                ],
-                              ),
-                            ],
-                          )
-                      )
-                    ],
-                  )
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(product['imgSrc'],height: size.width * 0.17,width: size.width * 0.17,),
+                      ),
+                    ),
+                    SizedBox(width: size.height * 0.01,),
+                    Container(
+                        width: size.width * 0.6,
+                        height: size.height * 0.15,
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(product['name'],style:TextStyle(fontSize: 27)),
+                            SizedBox(width: size.height * 0.03,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("\$" + product['price'].toString()),
+                                Text("x" + orderInfo['amount'].toString())
+                              ],
+                            ),
+                            Divider(color: Colors.black54,thickness: 2,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("subtotal"),
+                                Text("\$" + (orderInfo['amount'] * product['price']).toString())
+                              ],
+                            ),
+                          ],
+                        )
+                    )
                   ],
                 )
             )
-          ],
+        )
+      ],
     );
   }
 }

@@ -9,6 +9,8 @@ import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_search_field.dart';
 import 'package:se346/constants.dart';
 
+import 'add_product_screen.dart';
+
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -70,6 +72,22 @@ class _BodyState extends State<Body> {
                                 }
                             )
                         )
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+
+                        IconButton(onPressed: (){Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) {
+                                  return AddProductScreen();
+                                }
+                            )
+                        );}, icon: Icon(Icons.add)),
+                        SizedBox(width: size.width * 0.024,),
+                      ],
                     )
                   ],
                 ),

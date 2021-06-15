@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:se346/Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/order_mangaerment_screen.dart';
 import 'package:se346/Screens/AdminScreen/ProductInfoScreen/product_info_screen.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/product_managerment_screen.dart';
+import 'package:se346/Screens/AdminScreen/UserScreen/user_screen.dart';
 import 'package:se346/constants.dart';
 
 const String avatarURL = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/avatar.png?alt=media&token=a8d5be3c-a233-466c-aae2-785ac05e741a";
@@ -31,7 +33,13 @@ class SideMenu extends StatelessWidget {
                   children: <Widget>[
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Image.network(photoURL)
+                      child: CircleAvatar(
+                          radius: 30,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(45),
+                            child: Image.network("https://homepages.cae.wisc.edu/~ece533/images/airplane.png"),
+                          )
+                      ),
                     ),
                     SizedBox(height: size.height * 0.04,),
                     Align(
@@ -89,7 +97,16 @@ class SideMenu extends StatelessWidget {
               DrawerListTile(
                 title: "Profile",
                 svgSrc: "assets/icons/profile.svg",
-                press: () {},
+                press: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) {
+                            return UserScreen();
+                          }
+                      )
+                  );
+                },
               ),
             ],
           ),
