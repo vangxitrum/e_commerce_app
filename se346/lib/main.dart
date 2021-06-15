@@ -15,7 +15,7 @@ Future<void> main() async {
 }
 
 void checkInfoUser(User user){
-  if(user.photoURL == defaultAvatar)
+  if(user.photoURL == defaultAvatar || user.photoURL == "" || user.photoURL == null)
     user.updatePhotoURL("https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/89421820_p0.jpg?alt=media&token=bcad557c-b056-42bc-bf1b-d655a9744048");
   if(user.displayName == null)
     user.updateDisplayName("Username");
