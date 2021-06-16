@@ -16,18 +16,26 @@ class ProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.currentUser!.reload();
     final color = Theme.of(context).colorScheme.primary;
-    return Center(
-      child: Stack(
-        children: [
-          buildImage(),
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: buildEditIcon(color),
+    return StreamBuilder(
+      stream: FirebaseAuth.instance.userChanges(),
+      builder: (context, snapshot) {
+        if(!snapshot.hasData)
+          return Center(child: CircularProgressIndicator(),);
+        return Center(
+          child: Stack(
+            children: [
+              buildImage(),
+              Positioned(
+                bottom: 0,
+                right: 4,
+                child: buildEditIcon(color),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
   Widget buildImage() {

@@ -9,10 +9,10 @@ import 'package:image_picker/image_picker.dart';
 
 late String _image = "";
 final picker = ImagePicker();
-final String path = 'avatar/' + FirebaseAuth.instance.currentUser!.uid.toString() + '.png';
+final String path = 'avatar/' + FirebaseAuth.instance.currentUser!.uid;
 late String avatarURL = "";
 
-Future getImageSource(ImageSource imageSource) async {
+void getImageSource(ImageSource imageSource) async {
   final pickedFile = await picker.getImage(source: imageSource);
   if (pickedFile != null) {
     _image = pickedFile.path;
@@ -20,7 +20,9 @@ Future getImageSource(ImageSource imageSource) async {
     await getAvatarURL();
     if(avatarURL != ""){
       FirebaseAuth.instance.currentUser!.updatePhotoURL(avatarURL);
+      //print("befor reload: " + FirebaseAuth.instance.currentUser!.photoURL!);
       FirebaseAuth.instance.currentUser!.reload();
+      //print("after reload: " + FirebaseAuth.instance.currentUser!.photoURL!);
     }
   } else {
     _image = "";
@@ -32,25 +34,25 @@ Future<void> uploadAvatar(String filePath) async {
   File file = File(filePath);
   try {
     await FirebaseStorage.instance
-        .ref(path)
+        .ref().child(path)
         .putFile(file);
   } on FirebaseException catch (e) {
     // e.g, e.code == 'canceled'
   }
 }
 
-Future<void> getAvatarURL() async {
+Future<String> getAvatarURL() async {
   String downloadURL = await FirebaseStorage.instance
-      .ref(path)
+      .ref().child(path)
       .getDownloadURL();
-  print("downloadURL " + downloadURL);
   avatarURL = downloadURL;
+  return downloadURL;
   // Within your widgets:
   // Image.network(downloadURL);
 }
 
 
-void getImage(BuildContext context) {
+Future<void> getImage(BuildContext context) async {
   if(Platform.isAndroid){
     showModalBottomSheet(
         context: context,
@@ -58,7 +60,7 @@ void getImage(BuildContext context) {
           ListTile(
             leading: Icon(Icons.camera_alt),
             title: Text("Camera"),
-            onTap: (){
+            onTap: () async {
               Navigator.pop(context);
               getImageSource(ImageSource.camera);
             },
@@ -66,7 +68,7 @@ void getImage(BuildContext context) {
           ListTile(
             leading: Icon(Icons.photo),
             title: Text("Gallery"),
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
               getImageSource(ImageSource.gallery);
             },

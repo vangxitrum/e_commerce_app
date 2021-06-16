@@ -13,12 +13,16 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-void checkInfoUser(User user){
-  if(user.photoURL == defaultAvatar || user.photoURL == "" || user.photoURL == null)
+bool checkInfoUser(User user){
+  if(user.photoURL == defaultAvatar || user.photoURL == "" || user.photoURL == null){
     user.updatePhotoURL("https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/89421820_p0.jpg?alt=media&token=bcad557c-b056-42bc-bf1b-d655a9744048");
-  if(user.displayName == null)
+    return false;
+  }
+  if(user.displayName == null){
     user.updateDisplayName("Username");
-  user.reload();
+    return false;
+  }
+  return true;
 }
 
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -58,7 +62,8 @@ class MyApp extends StatelessWidget {
                       stream: adminList.snapshots(),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if(snapshot.hasData){
-                          checkInfoUser(auth.currentUser!);
+                          if(!checkInfoUser(auth.currentUser!))
+                            auth.currentUser!.reload();
                           List<Text> listTxtAdmin = snapshot.data!.docs.map((e) => Text(e['user'])).toList();
                           bool isAdmin = false;
                           for(int i = 0; i < listTxtAdmin.length; i++){
