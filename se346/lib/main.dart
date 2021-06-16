@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
@@ -19,6 +18,7 @@ void checkInfoUser(User user){
     user.updatePhotoURL("https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/89421820_p0.jpg?alt=media&token=bcad557c-b056-42bc-bf1b-d655a9744048");
   if(user.displayName == null)
     user.updateDisplayName("Username");
+  user.reload();
 }
 
 final FirebaseAuth auth = FirebaseAuth.instance;

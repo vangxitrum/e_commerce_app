@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:se346/Screens/AdminScreen/Components/text_field_editor.dart';
 import 'package:se346/components/image_button.dart';
+import 'package:se346/main.dart';
 
 import 'Components/Body.dart';
+import 'Components/Change_avatar.dart';
 import 'Components/profile_widget.dart';
 
 class EditScreen extends StatefulWidget {
@@ -14,6 +21,7 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,7 +47,9 @@ class _EditScreenState extends State<EditScreen> {
                   children: [
                     ProfileWidget(
                       imagePath: FirebaseAuth.instance.currentUser!.photoURL!,
-                      onClicked: () {},
+                      onClicked: () {
+                        getImage(context);
+                      },
                       isEdit: true,
                     ),
                     SizedBox(height: size.height * 0.03),
