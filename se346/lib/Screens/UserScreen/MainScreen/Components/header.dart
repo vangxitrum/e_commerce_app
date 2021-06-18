@@ -38,15 +38,16 @@ class _ScreenHeaderState extends State<MainScreenHeader> {
             Stack(
               children: [
                 IconButton(onPressed: (){
-                  Navigator.push(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) {
-                            return CartInfoScreen();
-                          }
+                        builder: (context) {
+                          return CartInfoScreen();
+                        }
                       )
-                  );
-                },icon: Icon(Icons.shopping_cart_outlined)),
+                    );
+                  },
+                    icon: Icon(Icons.shopping_cart_outlined)),
                 Positioned(
                   top:0,
                   right: 3.5,

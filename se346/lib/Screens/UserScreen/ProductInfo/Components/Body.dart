@@ -1,16 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/components/image_button.dart';
 import 'package:se346/constants.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  final DocumentSnapshot product;
+  const Body({
+    required this.product,
+    Key? key}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+  late int count = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -23,9 +28,7 @@ class _BodyState extends State<Body> {
           SizedBox(width: size.width  * 0.1,),
           FlatButton(
               onPressed: (){
-                setState(() {
-                  productCount++;
-                });
+                Navigator.pop(context);
               },
               minWidth: size.width * 0.5,
               height: size.height * 0.1,
@@ -55,23 +58,30 @@ class _BodyState extends State<Body> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        "assets/images/lol.png",
-                        height: size.height * 0.4,
-                        width: size.width * 0.4,),
+                      child: Image.network(
+                        widget.product['imgSrc'],
+                        height: size.height * 0.3,
+                        width: size.width * 0.3,
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: size.height * 0.1,),
-                        Text("League of Legend",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                        Text("Rito",style: TextStyle(color: Colors.black45,fontSize: 17),),
+                        Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                        Text(widget.product['developers']!,style: TextStyle(color: Colors.black45,fontSize: 17),),
                         SizedBox(height: size.height * 0.05,),
                         Row(
                           children: [
-                            ImageButton(icnSrc: 'assets/icons/remove.svg', press: (){}),
-                            Text("1",style:TextStyle(fontSize: 30)),
-                            ImageButton(icnSrc: 'assets/icons/add.svg', press: (){}),
+                            ImageButton(icnSrc: 'assets/icons/remove.svg', press: (){
+                              setState(() {
+                                if(count > 0) count--;
+                            }); }),
+                            Text(count.toString() ,style:TextStyle(fontSize: 30)),
+                            ImageButton(icnSrc: 'assets/icons/add.svg', press: (){
+                              setState(() {
+                                count++;
+                              }); }),
                           ],
                         )
                       ],
@@ -94,7 +104,7 @@ class _BodyState extends State<Body> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15,right: 15),
                     child: Text(
-                      "Liên Minh Huyền Thoại là một trò chơi video đấu trường trận chiến trực tuyến nhiều người chơi được Riot Games phát triển và phát hành trên nền tảng Windows và MacOS, lấy cảm hứng từ bản mod Defense of the Ancients ",
+                      widget.product['describe']!,
                       maxLines: 10,
                       style: TextStyle(fontSize: 14,letterSpacing: 1.5),
                     ),

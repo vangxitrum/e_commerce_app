@@ -1,17 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/UserScreen/ProductInfo/product_info.dart';
 import 'package:se346/components/rounded_containter.dart';
 
 class ProductItem extends StatelessWidget {
-  final String img;
-  final String name,price;
+  final DocumentSnapshot product;
   final void Function() onChanged;
   const ProductItem({
     Key? key,
-    required this.name,
-    required this.price,
-    required this.img,
+    required this.product,
     required this.onChanged
   }) : super(key: key);
 
@@ -24,7 +22,7 @@ class ProductItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) {
-                  return ProductInfo();
+                  return ProductInfo(product: product,);
                 }
             )
         );
@@ -37,8 +35,8 @@ class ProductItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  img,
+                child: Image.network(
+                  product['imgSrc'],
                   height: size.height * 0.18,
                   width: size.width * 0.2,),
               ),
@@ -50,8 +48,8 @@ class ProductItem extends StatelessWidget {
                     child:Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(name,style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(price,),
+                        Text(product['name'],style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(product['price'].toString(),),
                       ],
                     ),
                   ),
