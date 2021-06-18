@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:se346/Screens/UserScreen/MainScreen/main_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,8 +14,16 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MyApp());
 }
-final FirebaseAuth auth = FirebaseAuth.instance;
 
+void checkInfoUser(User user){
+  if(user.photoURL == defaultAvatar || user.photoURL == "" || user.photoURL == null)
+    user.updatePhotoURL("https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/89421820_p0.jpg?alt=media&token=bcad557c-b056-42bc-bf1b-d655a9744048");
+  if(user.displayName == null)
+    user.updateDisplayName("Username");
+}
+
+final FirebaseAuth auth = FirebaseAuth.instance;
+final String defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/avatar.png?alt=media&token=a8d5be3c-a233-466c-aae2-785ac05e741a";
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> fbApp = Firebase.initializeApp();
   final CollectionReference adminList = FirebaseFirestore.instance.collection('admin');
@@ -23,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Ban ty Game th',
       theme: ThemeData(
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
@@ -45,16 +54,21 @@ class MyApp extends StatelessWidget {
                   if(user == null) {
                     return WelcomeScreen();   //  login screen
                   }
+                  else{
+                    return MainScreen();
+                  }
+                  /*
                   else {
                     return StreamBuilder(
                       stream: adminList.snapshots(),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if(snapshot.hasData){
+                          checkInfoUser(auth.currentUser!);
                           List<Text> listTxtAdmin = snapshot.data!.docs.map((e) => Text(e['user'])).toList();
                           bool isAdmin = false;
                           for(int i = 0; i < listTxtAdmin.length; i++){
                             if(listTxtAdmin[i].data == auth.currentUser!.email){
-                              print(listTxtAdmin[i]);
+                              //print(auth.currentUser!.displayName);
                               isAdmin = true;
                             }
                           }
@@ -77,7 +91,9 @@ class MyApp extends StatelessWidget {
                         );
                       },);
                   }
+                */
                 }
+
 
                 return Scaffold(
                   body: Center(

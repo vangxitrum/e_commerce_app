@@ -3,33 +3,6 @@ import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/tes
 import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_search_field.dart';
 
-/*class ScreenHeader extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  const ScreenHeader({Key? key,
-  required this.scaffoldKey,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      width: double.infinity,
-      height: 0.1 * size.height,
-      child:Row(
-          children: <Widget>[
-            ImageButton(icnSrc: "assets/icons/menu.svg", press: (){
-              scaffoldKey.currentState!.openDrawer();
-            }),
-            SizedBox(width: size.width*0.07,),
-            RoundedSearchField(hindText: "Search here", onChanged: (value){
-
-            })
-          ]
-      ),
-    );
-  }
-}
-*/
 class ScreenHeader extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final void Function(String) onChanged;
@@ -57,7 +30,7 @@ class _ScreenHeaderState extends State<ScreenHeader> {
               scaffoldKey.currentState!.openDrawer();
             }),
             SizedBox(width: size.width*0.07,),
-            RoundedSearchField(hindText: "Search here", onChanged: widget.onChanged)
+            RoundedSearchField(hindText: "Search here", onChanged: widget.onChanged,w:0.7)
           ]
       ),
     );

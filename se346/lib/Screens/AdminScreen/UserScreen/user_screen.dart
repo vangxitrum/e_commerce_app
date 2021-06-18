@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'Components/Body.dart';
 
 class UserScreen extends StatefulWidget {
-  const UserScreen({Key? key}) : super(key: key);
+  final String avatarURL;
+  const UserScreen({
+    Key? key,
+    required this.avatarURL,
+  }) : super(key: key);
 
   @override
   _UserScreenState createState() => _UserScreenState();
@@ -12,6 +16,6 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
-    return Body();
+    return Body(avatarURL: widget.avatarURL,);
   }
 }

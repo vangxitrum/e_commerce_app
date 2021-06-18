@@ -64,7 +64,7 @@ class BuyProduct extends StatelessWidget {
                     )
                   ],
                 )
-              ],
+              ]
             )
         )
       ],
