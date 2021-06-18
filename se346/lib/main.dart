@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:se346/Screens/UserScreen/MainScreen/main_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Ban ty Game th',
       theme: ThemeData(
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
@@ -57,6 +58,10 @@ class MyApp extends StatelessWidget {
                   if(user == null) {
                     return WelcomeScreen();   //  login screen
                   }
+                  else{
+                    return MainScreen();
+                  }
+                  /*
                   else {
                     return StreamBuilder(
                       stream: adminList.snapshots(),
@@ -91,7 +96,9 @@ class MyApp extends StatelessWidget {
                         );
                       },);
                   }
+                */
                 }
+
 
                 return Scaffold(
                   body: Center(

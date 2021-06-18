@@ -5,8 +5,9 @@ import 'Components/Body.dart';
 class UserScreen extends StatefulWidget {
   final String avatarURL;
   const UserScreen({
+    Key? key,
     required this.avatarURL,
-    Key? key}) : super(key: key);
+  }) : super(key: key);
 
   @override
   _UserScreenState createState() => _UserScreenState();

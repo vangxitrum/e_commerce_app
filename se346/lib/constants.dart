@@ -5,3 +5,5 @@ const kPrimaryLightColor = Color(0xFFF1E6FF);
 const kMenuBGColor = Colors.white;
 const kMenuTextColor = Colors.black54;
 const double kMenuTextFont = 18;
+
+int productCount = 0;

@@ -7,8 +7,7 @@ import 'package:se346/constants.dart';
 
 class Body extends StatefulWidget {
   final DocumentSnapshot product;
-
-  const Body({
+  Body({
     Key? key,
     required this.product,
   }) : super(key: key);

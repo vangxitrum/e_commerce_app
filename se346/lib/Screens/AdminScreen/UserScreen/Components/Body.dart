@@ -20,41 +20,56 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-        return Scaffold(
-          body: Container(
-            height: size.height,
-            width: size.width,
-            color: Colors.white,
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  top:0,
-                  left:0,
-                  child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
-                    Navigator.pop(context);
-                  }),),
-                Positioned(
-                  top: size.height * 0.3,
-                  left: size.width * 0.1,
-                  right: size.width * 0.1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ProfileWidget(
-                        imagePath: AvatarURL,
-                        onClicked: () async {
-                          await Navigator.push( context,
-                            MaterialPageRoute(builder: (context) => EditScreen(avatarURL: widget.avatarURL,)),
-                          );
-                          //setState(() {if(avatarURL != "") AvatarURL = avatarURL;print("profile: " + AvatarURL);});
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.03),
-                      buildName(),
-                    ],
-                  )
-                ),
-              ],
+    return Scaffold(
+      bottomNavigationBar: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FlatButton(
+            onPressed: (){
+              setState(() {
+                //productCount++;
+              });
+            },
+            minWidth: size.width,
+            height: size.height * 0.08,
+            color: Colors.lightBlueAccent,
+            child: Text("Log out",style: TextStyle(fontSize: 18,color: Colors.white),),
+          ),
+        ],
+      ),
+      body: Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top:0,
+              left:0,
+              child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
+                Navigator.pop(context);
+              }),),
+            Positioned(
+                top: size.height * 0.3,
+                left: size.width * 0.1,
+                right: size.width * 0.1,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ProfileWidget(
+                      imagePath: AvatarURL,
+                      onClicked: () async {
+                        await Navigator.push( context,
+                          MaterialPageRoute(builder: (context) => EditScreen(avatarURL: widget.avatarURL,)),
+                        );
+                        //setState(() {if(avatarURL != "") AvatarURL = avatarURL;print("profile: " + AvatarURL);});
+                      },
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    buildName(),
+                  ],
+                )
             ),
           ),
         );
