@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/Login/login_screen.dart';
 import 'package:se346/Screens/SignUp/components/background.dart';
+import 'package:se346/Screens/UserScreen/MainScreen/Components/Body.dart';
 import 'package:se346/components/already_have_account_handler.dart';
 import 'package:se346/components/rounded_button.dart';
 import 'package:se346/components/rounded_password_field.dart';
@@ -12,6 +13,7 @@ class Body extends StatefulWidget {
   @override
   _Body createState() => _Body();
 }
+const String defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/89421820_p0.jpg?alt=media&token=bcad557c-b056-42bc-bf1b-d655a9744048";
 
 class _Body extends State<Body>{
   late String username;
@@ -22,13 +24,21 @@ class _Body extends State<Body>{
           .instance
           .createUserWithEmailAndPassword(
           email: username,
-          password: password);
+          password: password,
+      ).then((value) {
+        value.user!.updateDisplayName("User name");
+        value.user!.updatePhotoURL(defaultAvatar);
+        //AddOrder();
+        return value;
+      });
+
     } on FirebaseAuthException catch (e) {
       print("Error $e");
     } catch (e) {
       print("Error $e");
     }
-    Navigator.of(context).pop();
+    Navigator.pop(context);
+
   }
 
   @override
@@ -57,8 +67,8 @@ class _Body extends State<Body>{
           AlreadyHaveAccountHandler(
               login: false,
               press: () {
-                Navigator.push(
-                  context,
+                Navigator.pop(context);
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
                       return LoginScreen();

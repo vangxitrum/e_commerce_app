@@ -41,6 +41,7 @@ class _BodyState extends State<Body> {
                         child: ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
+                              print("order: " + snapshot.data!.docs[index].id);
                               return OrderItem(order: snapshot.data!.docs[index]);
                             }
                         )

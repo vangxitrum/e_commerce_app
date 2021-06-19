@@ -14,23 +14,10 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-bool checkInfoUser(User user){
-  if(user.photoURL == defaultAvatar || user.photoURL == "" || user.photoURL == null){
-    user.updatePhotoURL("https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/89421820_p0.jpg?alt=media&token=bcad557c-b056-42bc-bf1b-d655a9744048");
-    return false;
-  }
-  if(user.displayName == null){
-    user.updateDisplayName("Username");
-    return false;
-  }
-  return true;
-}
 
-final FirebaseAuth auth = FirebaseAuth.instance;
-final String defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/avatar.png?alt=media&token=a8d5be3c-a233-466c-aae2-785ac05e741a";
+
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> fbApp = Firebase.initializeApp();
-  final CollectionReference adminList = FirebaseFirestore.instance.collection('admin');
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -50,7 +37,7 @@ class MyApp extends StatelessWidget {
           }
           else if(snaphost.hasData) {
             return StreamBuilder(
-              stream: auth.authStateChanges(),
+              stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, snapshot){
                 if(snapshot.connectionState == ConnectionState.active) {
                   Object? user = snapshot.data;
@@ -58,51 +45,25 @@ class MyApp extends StatelessWidget {
                   if(user == null) {
                     return WelcomeScreen();   //  login screen
                   }
-                  else{
-                    return MainScreen();
-                  }
-                  /*
                   else {
                     return StreamBuilder(
-                      stream: adminList.snapshots(),
-                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if(snapshot.hasData){
-                          if(!checkInfoUser(auth.currentUser!))
-                            auth.currentUser!.reload();
-                          List<Text> listTxtAdmin = snapshot.data!.docs.map((e) => Text(e['user'])).toList();
-                          bool isAdmin = false;
-                          for(int i = 0; i < listTxtAdmin.length; i++){
-                            if(listTxtAdmin[i].data == auth.currentUser!.email){
-                              //print(auth.currentUser!.displayName);
-                              isAdmin = true;
-                            }
-                          }
-                          if(isAdmin)
-                            return OverViewScreen();  //admin screen
-                          else
-                            return Scaffold(      //customer screen
-                              body: Center(
-                                child: MaterialButton(
-                                  child: Text("Log out"),
-                                  onPressed: (){
-                                    auth.signOut();
-                                  },
-                                ),
-                              ),
-                            );
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },);
+                        stream: FirebaseFirestore.instance.collection('admin').snapshots(),
+                        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                          if(!snapshot.hasData)
+                            return Center(child: CircularProgressIndicator());
+
+                          if(snapshot.data!.docs.where((element) => (
+                            element['user'] == FirebaseAuth.instance.currentUser!.email
+                          )).isEmpty)
+                            return MainScreen();
+
+                          return OverViewScreen();
+                        });
                   }
-                */
                 }
-
-
                 return Scaffold(
                   body: Center(
-                      child: Text("Loading...")
+                      child: CircularProgressIndicator()
                   ),
                 );
               },

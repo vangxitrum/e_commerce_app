@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/OrderInfoScreen/Components/buy_product.dart';
 import 'package:se346/Screens/AdminScreen/OrderManagerMentScreen/Components/rounded_text.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
+import 'package:se346/Screens/UserScreen/CartScreen/Components/user_buy_product.dart';
 import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
 import 'package:intl/intl.dart';
@@ -19,12 +21,18 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-late List<DocumentSnapshot> listOrderProduct = [];
-
 //late List<DocumentSnapshot> listProduct= [];
 class _BodyState extends State<Body> {
+  var listOrderProduct = [];
   String selectedStatus = "";
-  List OrderStatus = ["Waiting","Cancel","Success"];
+  List OrderStatus = ["Waiting","Cancel","Success","Unconfirmed"];
+
+  Future getOrderInfo(AsyncSnapshot<QuerySnapshot> snapshot) async {
+    listOrderProduct.clear();
+    listOrderProduct = snapshot.data!.docs.where((u) => (
+        u['idOrder'] == widget.order.id
+    )).toList();
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -39,10 +47,11 @@ class _BodyState extends State<Body> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if(snapshot.hasData){
           listOrderProduct.clear();
-          print(widget.order['id']);
           listOrderProduct = snapshot.data!.docs.where((u) => (
-              u['idOrder'] == widget.order['id']
+              u['idOrder'] == widget.order.id
           )).toList();
+          print(listOrderProduct.length);
+
           return Scaffold(
               body: Container(
                   height: size.height,
@@ -112,7 +121,7 @@ class _BodyState extends State<Body> {
                                   children: [
 
                                     Text("Orders Code"),
-                                    Text(widget.order['id'].toString())
+                                    Text(widget.order.id)
                                   ],
                                 ),
                               ),
@@ -133,10 +142,10 @@ class _BodyState extends State<Body> {
                                           'status': newStatus.toString()
                                         });
                                       },
-                                      items: OrderStatus.map((valueItem){
+                                      items: OrderStatus.map((value){
                                         return DropdownMenuItem(
-                                          value: valueItem,
-                                          child: Text(valueItem),  );
+                                          value: value,
+                                          child: Text(value),  );
                                       }).toList(),
                                     )
                                   ],
@@ -149,23 +158,11 @@ class _BodyState extends State<Body> {
                         Container(
                             width: size.width,
                             height: size.height * 0.6,
-                            child: StreamBuilder(
-                              stream: FirebaseFirestore.instance.collection('product').snapshots(),
-                              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                if(!snapshot.hasData)
-                                  return Center(
-                                    child: Text("None"),
-                                  );
-                                return ListView.builder(
-                                  itemCount: listOrderProduct.length,
-                                  itemBuilder: (context, index) {
-                                    DocumentSnapshot product = snapshot.data!.docs.where((element) => (
-                                        element['idProduct'] == listOrderProduct[index]['idProduct']
-                                    )).first;
-                                    return BuyProduct(orderInfo: listOrderProduct[index], product: product,);
-                                  }
-                                );
-                              }
+                            child: ListView.builder(
+                                itemCount: listOrderProduct.length,
+                                itemBuilder: (context, index) {
+                                  return UserBuyProduct(orderInfo: listOrderProduct[index]);
+                                }
                             )
                         ),
                         SizedBox(height: size.height *0.025,),
@@ -185,7 +182,7 @@ class _BodyState extends State<Body> {
               )
           );
         }
-        return Text("None");
+        return Center(child: CircularProgressIndicator());
       }
     );
   }

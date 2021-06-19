@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:se346/Screens/AdminScreen/OrderInfoScreen/Components/Body.dart';
+import 'package:se346/Screens/UserScreen/MainScreen/Components/Body.dart';
 import 'package:se346/components/image_button.dart';
 import 'package:se346/constants.dart';
 
@@ -16,6 +18,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late int count = 0;
+  late int total = 0;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,10 +27,19 @@ class _BodyState extends State<Body> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Total: 200\$",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          Text("Total: $total\$",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
           SizedBox(width: size.width  * 0.1,),
           FlatButton(
               onPressed: (){
+                if(count > 0){
+                  addCount = 0;
+                  AddOrderInfo(count, widget.product.id, orderUnconfirmed.id);
+                  orderUnconfirmed.reference.update({
+                    'amount': orderUnconfirmed['amount'] + count,
+                    'total' : orderUnconfirmed['total'] + widget.product['price'] * count
+                  });
+                  productCount += count;
+                }
                 Navigator.pop(context);
               },
               minWidth: size.width * 0.5,
@@ -69,7 +81,8 @@ class _BodyState extends State<Body> {
                       children: [
                         SizedBox(height: size.height * 0.1,),
                         Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                        Text(widget.product['developers']!,style: TextStyle(color: Colors.black45,fontSize: 17),),
+                        Text(widget.product['developers'],style: TextStyle(color: Colors.black45,fontSize: 17),),
+                        Text(widget.product['price'].toString() + "\$",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
                         SizedBox(height: size.height * 0.05,),
                         Row(
                           children: [
@@ -81,12 +94,12 @@ class _BodyState extends State<Body> {
                             ImageButton(icnSrc: 'assets/icons/add.svg', press: (){
                               setState(() {
                                 count++;
+                                total = widget.product['price'].toInt() * count;
                               }); }),
                           ],
                         )
                       ],
                     )
-
                   ],
                 ),
               ),
@@ -111,8 +124,6 @@ class _BodyState extends State<Body> {
                   )
                 ],
               ),
-
-
             ],
           ),
         ),

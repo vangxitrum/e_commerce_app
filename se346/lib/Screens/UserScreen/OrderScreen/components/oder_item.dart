@@ -7,8 +7,9 @@ import 'package:se346/components/rounded_containter.dart';
 import 'package:intl/intl.dart';
 
 class UserOrderItem extends StatefulWidget {
-
+  final DocumentSnapshot order;
   const UserOrderItem({
+    required this.order,
     Key? key}) : super(key: key);
 
   @override
@@ -30,7 +31,7 @@ class _UserOrderItemState extends State<UserOrderItem> {
                 context,
                 MaterialPageRoute(
                     builder: (context) {
-                      return UserOderInfo();
+                      return UserOderInfo(order: widget.order,);
                     }
                 )
             );
@@ -53,9 +54,9 @@ class _UserOrderItemState extends State<UserOrderItem> {
                             padding: EdgeInsets.all(size.height * 0.01),
                             child: Column(
                               children: [
-                                Text("user name",textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                                Text(widget.order['user_name'],textAlign: TextAlign.left, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                                 SizedBox(height: size.height * 0.006,),
-                                RoundedText(text: 'waiting',),
+                                RoundedText(text: widget.order['status'],),
                               ],
                             ),
                           ),
@@ -69,7 +70,7 @@ class _UserOrderItemState extends State<UserOrderItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Orders "),
-                            Text("1/1/1990")
+                            Text(DateFormat('dd-MM-yyyy').format(widget.order['time'].toDate()))
                           ],
                         ),
                       ),
@@ -81,7 +82,7 @@ class _UserOrderItemState extends State<UserOrderItem> {
                           children: [
 
                             Text("Orders Code"),
-                            Text("2")
+                            Text(widget.order.id)
                           ],
                         ),
                       ),
@@ -92,7 +93,7 @@ class _UserOrderItemState extends State<UserOrderItem> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Total"),
-                              Text("200\$")
+                              Text(widget.order['total'].toString() + "\$")
                             ],
                           )
                       ),
