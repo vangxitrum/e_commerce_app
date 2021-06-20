@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
                         SizedBox(height: 0.02 * size.height,),
                         Container(
                             width: size.width * 0.9,
-                            height: size.height * 0.6,
+                            height: size.height * 0.865,
                             child: ListView.builder(
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {

@@ -45,7 +45,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
       stream: FirebaseFirestore.instance.collection('orderInfo').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if(!snapshot.hasData)
-          return Text("No data");
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
 
         getOrderInfo(snapshot);
 
@@ -61,12 +61,13 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                   SizedBox(width: size.width  * 0.1,),
                   FlatButton(
                     onPressed: () async {
-                      if(listShow.length > 0)
+                      if(listOrderInfoShow.length > 0)
                       {
-                        await widget.order.reference.update({
-                          'status' : Waiting,
-                          'email' : email,
-                          'numberPhone' : numberPhone
+                        count = -1;
+                        widget.order.reference.update({
+                          'status': "Waiting",
+                          'email': email,
+                          'numberPhone': numberPhone
                         });
                         Navigator.pop(context);
                         //productCount++;

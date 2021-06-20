@@ -74,7 +74,7 @@ Future<void> getImage(BuildContext context) async {
             },
           )
         ],
-        )
+      )
     );
   }
   else{

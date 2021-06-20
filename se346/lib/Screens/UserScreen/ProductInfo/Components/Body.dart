@@ -30,8 +30,8 @@ class _BodyState extends State<Body> {
           Text("Total: $total\$",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
           SizedBox(width: size.width  * 0.1,),
           FlatButton(
-              onPressed: (){
-                if(count > 0){
+              onPressed: () {
+                if(count > 0) {
                   addCount = 0;
                   AddOrderInfo(count, widget.product.id, orderUnconfirmed.id);
                   orderUnconfirmed.reference.update({

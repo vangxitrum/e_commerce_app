@@ -80,12 +80,12 @@ class _SideMenuState extends State<SideMenu> {
                       press: () {
                         Navigator.pop(main_context);
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) {
-                                  return OrderManagementScreen();
-                                }
-                            )
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return OrderManagementScreen();
+                            }
+                          )
                         );
                       },
                     ),

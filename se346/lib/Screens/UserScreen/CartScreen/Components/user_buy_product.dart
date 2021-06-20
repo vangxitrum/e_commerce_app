@@ -40,9 +40,9 @@ class _UserBuyProductState extends State<UserBuyProduct> {
           //return Scaffold(body: Center(child: CircularProgressIndicator(),),);
         //productInfo = result[0];
         if(_product.isEmpty){
-          return Center(child: CircularProgressIndicator());
+          return Center(child: Text("Không có thông tin sản phẩm"));
         }
-        else{
+        else {
           print("length: " + _product.length.toString());
           return Column(
             children: [

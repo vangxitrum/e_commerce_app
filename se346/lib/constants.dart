@@ -17,5 +17,5 @@ const Cancel = "Cancel";
 const Success = "Success";
 const Unconfirmed = "Unconfirmed";
 
-late int count = 0;
+late int count = -1;
 late int addCount = 0;

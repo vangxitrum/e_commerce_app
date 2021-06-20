@@ -22,7 +22,6 @@ late DocumentSnapshot orderUnconfirmed;
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   late MainScreenHeader header;
-  int count = 0;
   @override
   void initState() {
     filter = item;
@@ -39,7 +38,7 @@ class _BodyState extends State<Body> {
         CheckOrder();
 
         result.clear();
-        for(int i = 0; i < snapshot_order.data!.docs.length; i++){
+        for(int i = 0; i < snapshot_order.data!.docs.length; i++) {
           if(snapshot_order.data!.docs[i]['idUser'] == FirebaseAuth.instance.currentUser!.uid &&
               snapshot_order.data!.docs[i]['status'] == Unconfirmed)
           result.add(snapshot_order.data!.docs[i]);
@@ -50,10 +49,10 @@ class _BodyState extends State<Body> {
                 element['status'] == Unconfirmed
         )).toList();*/
 
-        if(result.length == 0){
+        if(result.length == 0) {
           return Center(child: CircularProgressIndicator(),);
         }
-        else{
+        else {
           orderUnconfirmed = result[0];
           productCount = orderUnconfirmed['amount'];
           print(orderUnconfirmed.id);
@@ -68,7 +67,8 @@ class _BodyState extends State<Body> {
 
                     item.clear();
                     for(int i = 0; i < snapshot.data!.docs.length; i++){
-                      item.add(snapshot.data!.docs[i]);
+                      if(snapshot.data!.docs[i]['stop'] == true)
+                        item.add(snapshot.data!.docs[i]);
                     }
 
                     return Container(
@@ -132,7 +132,7 @@ class _BodyState extends State<Body> {
 }
 
 Future<void> AddOrder() async {
-  if(count == 0)
+  count = 0;
     await FirebaseFirestore.instance.collection('order').add({
       'amount' : 0,
       'email' : FirebaseAuth.instance.currentUser!.email,
@@ -142,8 +142,7 @@ Future<void> AddOrder() async {
       'time' : Timestamp.now(),
       'total' : 0,
       'user_name' : FirebaseAuth.instance.currentUser!.displayName ?? FirebaseAuth.instance.currentUser!.email,
-    });
-  count++;
+    }).whenComplete(() => count = 1);
 }
 
 CollectionReference orderInfo = FirebaseFirestore.instance.collection('orderInfo');
@@ -198,7 +197,9 @@ void CheckOrder(){
           && element['status'] == 'Unconfirmed'
         )).toList();
         if(result.length == 0){
-          AddOrder();
+          if(count == -1){
+            AddOrder();
+          }
           return;
         }
   });
