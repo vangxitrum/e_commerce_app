@@ -16,6 +16,7 @@ void getImageSource(ImageSource imageSource) async {
   final pickedFile = await picker.getImage(source: imageSource);
   if (pickedFile != null) {
     _image = pickedFile.path;
+    print(_image);
     await uploadAvatar(_image);
     await getAvatarURL();
     if(avatarURL != ""){
@@ -50,7 +51,6 @@ Future<String> getAvatarURL() async {
   // Within your widgets:
   // Image.network(downloadURL);
 }
-
 
 Future<void> getImage(BuildContext context) async {
   if(Platform.isAndroid){

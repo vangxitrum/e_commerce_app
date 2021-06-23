@@ -52,7 +52,7 @@ class _BodyState extends State<Body> {
             ),
         );
         }
-        return Text("None");
+        return Center(child: CircularProgressIndicator(),);
       }
     );
   }
