@@ -31,33 +31,41 @@ class ProductItem extends StatelessWidget {
           height: size.height * 0.25,
           width: size.width * 0.44,
           color: Colors.white,
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  product['imgSrc'],
-                  height: size.height * 0.18,
-                  width: size.width * 0.2,),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween ,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(product['name'],style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(product['price'].toString(),),
-                        //Text(product["amount"].toString())
-                      ],
-                    ),
+          child: Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Column(
+              children: [
+                Container(
+                  height: size.height * 0.15,
+                  width: size.height * 0.15,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      product['imgSrc'],
+                      fit: BoxFit.cover ,),
                   ),
-                  IconButton(onPressed: onChanged, icon: Icon(Icons.add)),
-                ],
-              )
-            ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child:Container(
+                        width: size.width * 0.3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(product['name'],style: TextStyle(fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),
+                            Text(product['price'].toString(),),
+                          ],
+                        ),
+                      ),
+                    ),
+                    IconButton(onPressed: onChanged, icon: Icon(Icons.add)),
+                  ],
+                )
+              ],
+            ),
           ),
           radius: 30),
     );

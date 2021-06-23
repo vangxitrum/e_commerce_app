@@ -37,8 +37,9 @@ class _BodyState extends State<Body> {
           FlatButton(
             onPressed: (){
               setState(() {
-                Navigator.pop(context);
                 signOut();
+                Navigator.pushNamed(context,"loginScreen");
+                //Navigator.pushNamedAndRemoveUntil(context, "loginScreen", (r) => false);
               });
             },
             minWidth: size.width,

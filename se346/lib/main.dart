@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:se346/Screens/Login/login_screen.dart';
 import 'package:se346/Screens/UserScreen/MainScreen/main_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
+      routes: {
+        "loginScreen": (context) => LoginScreen(),
+
+      },
       home: FutureBuilder(
         future: fbApp,
         builder: (context, snaphost) {

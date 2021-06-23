@@ -36,7 +36,7 @@ class _BodyState extends State<Body> {
                     ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
                     SizedBox(height: 0.02 * size.height,),
                     Container(
-                        width: size.width * 0.9,
+                        width: size.width,
                         height: size.height * 0.86,
                         child: ListView.builder(
                             itemCount: snapshot.data!.docs.length,

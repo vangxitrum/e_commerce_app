@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/OrderInfoScreen/Components/Body.dart';
@@ -73,24 +74,35 @@ class _BodyState extends State<Body> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        widget.product['imgSrc'],
-                        height: size.height * 0.3,
-                        width: size.width * 0.3,
+                    Container(
+                      height: size.height * 0.2,
+                      width: size.height * 0.2,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.network(
+                          widget.product['imgSrc'],
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
+                    SizedBox(width: 20,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: size.height * 0.1,),
-                        Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                        Text(widget.product['developers'],style: TextStyle(color: Colors.black45,fontSize: 17),),
-                        Text(widget.product['price'].toString() + "\$",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                        Text("Số lượng trong kho: " + widget.product["amount"].toString(), style: TextStyle(fontSize: 20),),
+                        Container(
+                          width: size.width * 0.5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                              Text(widget.product['developers'],style: TextStyle(color: Colors.black45,fontSize: 17),overflow: TextOverflow.ellipsis,maxLines: 2,),
+                              Text(widget.product['price'].toString() + "\$",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                              Text("Số lượng trong kho: " + widget.product["amount"].toString(), style: TextStyle(fontSize: 20),),
+                            ],
+                          )
+                        ),
                         SizedBox(height: size.height * 0.05,),
                         Row(
                           children: [
