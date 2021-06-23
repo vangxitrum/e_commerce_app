@@ -17,111 +17,116 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
-  late String AvatarURL = FirebaseAuth.instance.currentUser!.photoURL!;
 
   @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    String username = FirebaseAuth.instance.currentUser!.displayName.toString();
-    return StreamBuilder(
-        stream: FirebaseAuth.instance.userChanges(),
-        builder: (context, snapshot) {
-          return Drawer(
-              child: Container(
-                color: kMenuBGColor,
-                child: SingleChildScrollView(
-                  // it enables scrolling
-                  child: Column(
-                    children: [
-                      DrawerHeader(
-                        decoration: BoxDecoration(color: Color.fromARGB(255, 171, 214, 223)),
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: CircleAvatar(
-                                  radius: 30,
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: Image.network(FirebaseAuth.instance.currentUser!.photoURL!)
-                                  )
-                              ),
+  Widget build(BuildContext main_context) {
+    Size size = MediaQuery.of(main_context).size;
+    return Drawer(
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.userChanges(),
+          builder: (context, snapshot) {
+            return Container(
+              color: kMenuBGColor,
+              child: SingleChildScrollView(
+                // it enables scrolling
+                child: Column(
+                  children: [
+                    DrawerHeader(
+                      decoration: BoxDecoration(color: Color.fromARGB(255, 171, 214, 223)),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: CircleAvatar(
+                                radius: 30,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: Image.network(
+                                      FirebaseAuth.instance.currentUser!.photoURL!,
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.cover,
+                                    )
+                                )
                             ),
-                            SizedBox(height: size.height * 0.04,),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child:Text(username,style: TextStyle(color: kMenuTextColor, fontSize: 25), maxLines: 1,),
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(height: size.height * 0.04,),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child:Text(FirebaseAuth.instance.currentUser!.displayName!,style: TextStyle(color: kMenuTextColor, fontSize: 25), maxLines: 1,),
+                          ),
+                        ],
                       ),
-                      DrawerListTile(
-                        title: "Overview",
-                        svgSrc: "assets/icons/overview.svg",
-                        press: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return OverViewScreen();
-                                  }
-                              )
-                          );
-                        },
-                      ),
-                      SizedBox(height: size.height*0.02,),
-                      DrawerListTile(
-                        title: "Orders",
-                        svgSrc: "assets/icons/order.svg",
-                        press: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return OrderManagementScreen();
-                                  }
-                              )
-                          );
-                        },
-                      ),
-                      SizedBox(height: size.height*0.02,),
-                      DrawerListTile(
-                        title: "Product Management",
-                        svgSrc: "assets/icons/product.svg",
-                        press: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return ProductManagementScreen();
-                                  }
-                              )
-                          );
-                        },
-                      ),
-                      SizedBox(height: size.height*0.02,),
-                      DrawerListTile(
-                        title: "Profile",
-                        svgSrc: "assets/icons/profile.svg",
-                        press: () async {
-                          await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) {
-                                    return UserScreen(avatarURL: AvatarURL,);
-                                  }
-                              )
-                          );
-                          //setState(() {if(avatarURL != "") AvatarURL = avatarURL;});
-                          print("Menu: " + AvatarURL);
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    DrawerListTile(
+                      title: "Overview",
+                      svgSrc: "assets/icons/overview.svg",
+                      press: () {
+                        Navigator.pop(main_context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) {
+                                  return OverViewScreen();
+                                }
+                            )
+                        );
+                      },
+                    ),
+                    SizedBox(height: size.height*0.02,),
+                    DrawerListTile(
+                      title: "Orders",
+                      svgSrc: "assets/icons/order.svg",
+                      press: () {
+                        Navigator.pop(main_context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return OrderManagementScreen();
+                            }
+                          )
+                        );
+                      },
+                    ),
+                    SizedBox(height: size.height*0.02,),
+                    DrawerListTile(
+                      title: "Product Management",
+                      svgSrc: "assets/icons/product.svg",
+                      press: () {
+                        Navigator.pop(main_context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) {
+                                  return ProductManagementScreen();
+                                }
+                            )
+                        );
+                      },
+                    ),
+                    SizedBox(height: size.height*0.02,),
+                    DrawerListTile(
+                      title: "Profile",
+                      svgSrc: "assets/icons/profile.svg",
+                      press: () async {
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) {
+                                  return UserScreen(avatarURL: FirebaseAuth.instance.currentUser!.photoURL!,);
+                                }
+                            )
+                        );
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
-              )
-          );
-        }
+              ),
+            );
+          }
+        )
     );
   }
 }

@@ -48,7 +48,7 @@ class _EditScreenState extends State<EditScreen> {
                       onClicked: () async {
                         await getImage(context);
                         //setState(() {AvatarURL = avatarURL == "" ? AvatarURL : avatarURL;});
-                      },
+                        },
                       isEdit: true,
                     ),
                     SizedBox(height: size.height * 0.03),

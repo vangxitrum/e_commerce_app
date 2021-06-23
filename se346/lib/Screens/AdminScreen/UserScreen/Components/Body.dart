@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/UserScreen/Components/Change_avatar.dart';
 import 'package:se346/Screens/AdminScreen/UserScreen/Components/profile_widget.dart';
 import 'package:se346/Screens/AdminScreen/UserScreen/edit_screen.dart';
+import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/components/image_button.dart';
 
 class Body extends StatefulWidget {
@@ -13,6 +14,14 @@ class Body extends StatefulWidget {
 
   @override
   _BodyState createState() => _BodyState();
+}
+
+Future signOut() async {
+  try{
+    await FirebaseAuth.instance.signOut();
+  }catch(e){
+    print(e);
+  }
 }
 
 class _BodyState extends State<Body> {
@@ -28,7 +37,9 @@ class _BodyState extends State<Body> {
           FlatButton(
             onPressed: (){
               setState(() {
-                //productCount++;
+                signOut();
+                Navigator.pushNamed(context,"loginScreen");
+                //Navigator.pushNamedAndRemoveUntil(context, "loginScreen", (r) => false);
               });
             },
             minWidth: size.width,
@@ -71,9 +82,9 @@ class _BodyState extends State<Body> {
                   ],
                 )
             ),
-          ],
+          ]
         ),
-      ),
+      )
     );
   }
 }

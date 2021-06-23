@@ -94,7 +94,7 @@ class _BodyState extends State<Body> {
               )
           );
         }
-        return Text("None data");
+        return Center(child: CircularProgressIndicator());
       }
     );
   }

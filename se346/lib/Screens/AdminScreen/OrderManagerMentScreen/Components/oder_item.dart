@@ -44,7 +44,7 @@ class _OrderItemState extends State<OrderItem> {
                   height: size.height * 0.17,
                   width: size.width * 0.9,
                   color: Colors.white,
-                  radius: 20  ,
+                  radius: 20,
                   child:
                   Column(
                     children: <Widget>[
@@ -83,7 +83,7 @@ class _OrderItemState extends State<OrderItem> {
                           children: [
 
                             Text("Orders Code"),
-                            Text(_order['id'].toString())
+                            Text(_order.id)
                           ],
                         ),
                       ),

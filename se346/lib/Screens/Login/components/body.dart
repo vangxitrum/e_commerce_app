@@ -64,8 +64,8 @@ class _Body extends State<Body> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               AlreadyHaveAccountHandler(press: () {
-                Navigator.push(
-                  context,
+                Navigator.pop(context);
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
                       return SignUpScreen();

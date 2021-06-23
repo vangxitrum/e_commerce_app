@@ -12,7 +12,6 @@ import 'package:se346/Screens/UserScreen/MainScreen/main_screen.dart';
 import 'package:se346/Screens/UserScreen/OrderScreen/OrderScreen.dart';
 import 'package:se346/constants.dart';
 
-const String avatarURL = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/avatar.png?alt=media&token=a8d5be3c-a233-466c-aae2-785ac05e741a";
 
 class SideMenu extends StatelessWidget {
 
@@ -20,6 +19,7 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     String username = FirebaseAuth.instance.currentUser!.displayName.toString();
+
     return Drawer(
         child: Container(
           color: kMenuBGColor,
@@ -37,7 +37,12 @@ class SideMenu extends StatelessWidget {
                             radius: 30,
                             child: ClipRRect(
                                 borderRadius: BorderRadius.circular(30),
-                                child: Image.network(FirebaseAuth.instance.currentUser!.photoURL!)
+                                child: Image.network(
+                                    FirebaseAuth.instance.currentUser!.photoURL!,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                )
                             )
                         ),
                       ),
@@ -87,7 +92,7 @@ class SideMenu extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) {
-                              return UserScreen(avatarURL: '',);
+                              return UserScreen(avatarURL: FirebaseAuth.instance.currentUser!.photoURL!,);
                             }
                         )
                     );
