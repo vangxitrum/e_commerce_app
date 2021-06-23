@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
             onPressed: (){
               setState(() {
                 signOut();
-                Navigator.pushNamed(context,"loginScreen");
+                //Navigator.pushNamed(context,"loginScreen");
                 //Navigator.pushNamedAndRemoveUntil(context, "loginScreen", (r) => false);
               });
             },

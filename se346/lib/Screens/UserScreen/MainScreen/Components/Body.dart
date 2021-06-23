@@ -58,7 +58,7 @@ class _BodyState extends State<Body> {
           print(orderUnconfirmed.id);
           return Scaffold(
               key: _scaffoldKey,
-              drawer: SideMenu(),
+              //drawer: SideMenu(),
               body: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('product').orderBy('name', descending: false).snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -41,7 +41,7 @@ class _BodyState extends State<Body> {
           }
           return Scaffold(
               key: _scaffoldKey,
-              drawer: SideMenu(),
+              //drawer: SideMenu(),
               body: Container(
                 height: size.height,
                 width: double.infinity,
