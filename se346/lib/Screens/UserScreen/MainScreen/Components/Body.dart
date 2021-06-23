@@ -104,16 +104,22 @@ class _BodyState extends State<Body> {
                                           padding: EdgeInsets.only(left:8,right: 8,top:4,bottom:4),
                                           child: ProductItem(product: filter[index],onChanged: ()
                                           {
-                                            addCount = 0;
-                                            AddOrderInfo(1, filter[index].id, orderUnconfirmed.id);
-                                            orderUnconfirmed.reference.update(
-                                                {
-                                                  'amount': orderUnconfirmed['amount'] + 1,
-                                                  'total' : orderUnconfirmed['total'] + filter[index]['price'],
-                                                });
-                                            setState(() {
-                                              productCount++;
-                                            });
+                                            if(filter[index]['amount'] >= 1){
+                                              addCount = 0;
+                                              AddOrderInfo(1, filter[index].id, orderUnconfirmed.id);
+                                              orderUnconfirmed.reference.update(
+                                                  {
+                                                    'amount': orderUnconfirmed['amount'] + 1,
+                                                    'total' : orderUnconfirmed['total'] + filter[index]['price'],
+                                                  });
+                                              setState(() {
+                                                productCount++;
+                                              });
+                                              /*filter[index].reference.update(
+                                                  {
+                                                    'amount' : filter[index]['amount'] - 1
+                                                  });*/
+                                            }
                                           },)
                                       );}),
                               ),

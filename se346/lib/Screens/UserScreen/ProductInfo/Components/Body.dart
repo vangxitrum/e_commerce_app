@@ -32,13 +32,20 @@ class _BodyState extends State<Body> {
           FlatButton(
               onPressed: () {
                 if(count > 0) {
-                  addCount = 0;
-                  AddOrderInfo(count, widget.product.id, orderUnconfirmed.id);
-                  orderUnconfirmed.reference.update({
-                    'amount': orderUnconfirmed['amount'] + count,
-                    'total' : orderUnconfirmed['total'] + widget.product['price'] * count
-                  });
-                  productCount += count;
+                  if(count <= widget.product["amount"]){
+                    addCount = 0;
+                    AddOrderInfo(count, widget.product.id, orderUnconfirmed.id);
+                    orderUnconfirmed.reference.update({
+                      'amount': orderUnconfirmed['amount'] + count,
+                      'total' : orderUnconfirmed['total'] + widget.product['price'] * count
+                    });
+                    /*widget.product.reference.update({
+                      'amount' : widget.product["amount"] - count
+                    });*/
+                    productCount += count;
+                  }
+                  else{
+                  }
                 }
                 Navigator.pop(context);
               },
@@ -83,6 +90,7 @@ class _BodyState extends State<Body> {
                         Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
                         Text(widget.product['developers'],style: TextStyle(color: Colors.black45,fontSize: 17),),
                         Text(widget.product['price'].toString() + "\$",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                        Text("Số lượng trong kho: " + widget.product["amount"].toString(), style: TextStyle(fontSize: 20),),
                         SizedBox(height: size.height * 0.05,),
                         Row(
                           children: [
@@ -93,8 +101,10 @@ class _BodyState extends State<Body> {
                             Text(count.toString() ,style:TextStyle(fontSize: 30)),
                             ImageButton(icnSrc: 'assets/icons/add.svg', press: (){
                               setState(() {
-                                count++;
-                                total = widget.product['price'].toInt() * count;
+                                if(count < widget.product["amount"]){
+                                  count++;
+                                  total = widget.product['price'].toInt() * count;
+                                }
                               }); }),
                           ],
                         )

@@ -50,6 +50,7 @@ class ProductItem extends StatelessWidget {
                       children: [
                         Text(product['name'],style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(product['price'].toString(),),
+                        //Text(product["amount"].toString())
                       ],
                     ),
                   ),
