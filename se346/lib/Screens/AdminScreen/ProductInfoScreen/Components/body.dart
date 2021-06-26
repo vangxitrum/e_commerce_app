@@ -27,30 +27,32 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     DocumentSnapshot _product = widget.product;
-    return Container(
-      height: size.height,
-      width: size.width,
-      color: Colors.white,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top:0,
-            left:0,
-            child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
-              Navigator.pop(context);
-            }),),
-          Positioned(
-            top:size.height * 0.1,
-            left:size.width * 0.31,
-            right: size.width * 0.31,
-            child:
-            Container(
-              height: size.height*0.2,
-              width: size.height*0.2,
-              alignment: Alignment.topRight,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(_product['imgSrc'],height: size.width * 0.4,width: size.width * 0.4,),
+    return SingleChildScrollView(
+      child: Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              top:0,
+              left:0,
+              child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
+                Navigator.pop(context);
+              }),),
+            Positioned(
+              top:size.height * 0.1,
+              left:size.width * 0.31,
+              right: size.width * 0.31,
+              child:
+              Container(
+                height: size.height*0.2,
+                width: size.height*0.2,
+                alignment: Alignment.topRight,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(_product['imgSrc'],height: size.width * 0.4,width: size.width * 0.4,),
+                ),
               ),
             ),
           ),
@@ -93,6 +95,13 @@ class _BodyState extends State<Body> {
                             }
                           }),
                       SizedBox(height: size.height*0.02,),
+                      TextFieldEditor(
+                            label: "Sale",
+                            text: "0%",
+                            onChanged: (value){
+
+                            }),
+                        SizedBox(height: size.height*0.02,),
                       TextFieldEditor(
                           label: "Developers",
                           text: _product['developers'].toString(),
@@ -159,13 +168,20 @@ class _BodyState extends State<Body> {
                       },
                       child: Text("Delete"),
                       minWidth: size.width * 0.5,
-                      height: size.height*0.08
-                  ),
-                ],
-              )
-          )
+                      height: size.height*0.08,
+                    ),
+                    FlatButton(
+                        onPressed: (){},
+                        child: Text("Delete"),
+                        minWidth: size.width * 0.5,
+                        height: size.height*0.08
+                    ),
+                  ],
+                )
+            )
 
-        ],
+          ],
+        ),
       ),
     );
   }
