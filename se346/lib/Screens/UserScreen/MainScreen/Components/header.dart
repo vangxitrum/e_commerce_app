@@ -35,40 +35,40 @@ class _ScreenHeaderState extends State<MainScreenHeader> {
     return Container(
       width: double.infinity,
       height: 0.1 * size.height,
-      child:Row(
-          children: <Widget>[
-            ImageButton(icnSrc: "assets/icons/menu.svg", press: (){
-              scaffoldKey.currentState!.openDrawer();
-            }),
-            RoundedSearchField(hindText: "Search here", onChanged: widget.onChanged,w:0.65),
-            Stack(
-              children: [
-                IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return CartInfoScreen(order: widget.order,);
-                        }
-                      )
-                    );
-                  },
-                    icon: Icon(Icons.shopping_cart_outlined)),
-                Positioned(
-                  top:0,
-                  right: 3.5,
-                  child: Container(
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: widget.count !=0 ? Colors.red :Colors.transparent,
-                      shape: BoxShape.circle,
+      child:Padding(
+        padding: const EdgeInsets.only(left: 50.0),
+        child: Row(
+            children: <Widget>[
+              RoundedSearchField(hindText: "Search here", onChanged: widget.onChanged,w:0.75),
+              Stack(
+                children: [
+                  IconButton(onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CartInfoScreen(order: widget.order,);
+                          }
+                        )
+                      );
+                    },
+                      icon: Icon(Icons.shopping_cart_outlined)),
+                  Positioned(
+                    top:0,
+                    right: 3.5,
+                    child: Container(
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: widget.count !=0 ? Colors.red :Colors.transparent,
+                        shape: BoxShape.circle,
+                      ),
+                      child:Text(widget.count != 0 ? widget.count.toString():"",style: TextStyle(color: Colors.white),)
                     ),
-                    child:Text(widget.count != 0 ? widget.count.toString():"",style: TextStyle(color: Colors.white),)
-                  ),
-                )
-              ],
-            )
-          ]
+                  )
+                ],
+              )
+            ]
+        ),
       ),
     );
   }

@@ -19,3 +19,4 @@ const Unconfirmed = "Unconfirmed";
 
 late int count = -1;
 late int addCount = 0;
+late int AddProductCount = -1;

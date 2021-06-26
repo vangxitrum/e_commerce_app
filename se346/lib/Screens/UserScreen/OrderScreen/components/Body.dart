@@ -26,7 +26,7 @@ class _BodyState extends State<Body> {
           if(snapshot.hasData){
             return Scaffold(
               key: _scaffoldKey,
-              drawer: SideMenu(),
+              //drawer: SideMenu(),
               body: Container(
                   width: size.width,
                   height: double.infinity,

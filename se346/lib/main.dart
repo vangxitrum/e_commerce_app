@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:se346/Screens/AdminScreen/admin_screen.dart';
 import 'package:se346/Screens/Login/login_screen.dart';
 import 'package:se346/Screens/UserScreen/MainScreen/main_screen.dart';
+import 'package:se346/Screens/UserScreen/user_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,8 +16,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> fbApp = Firebase.initializeApp();
@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
               builder: (context, snapshot){
                 if(snapshot.connectionState == ConnectionState.active) {
                   Object? user = snapshot.data;
-
                   if(user == null) {
                     return WelcomeScreen();   //  login screen
                   }
@@ -58,13 +57,19 @@ class MyApp extends StatelessWidget {
                             return Center(child: CircularProgressIndicator());
 
                           if(snapshot.data!.docs.where((element) => (
-                            element['user'] == FirebaseAuth.instance.currentUser!.email
+                              element['user'] == FirebaseAuth.instance.currentUser!.email
                           )).isEmpty)
-                            return MainScreen();
+                            return UserMainScreen();
 
-                          return OverViewScreen();
+                          return AdminMainScreen();
                         });
                   }
+                  return StreamBuilder(
+                    stream: FirebaseAuth.instance.userChanges(),
+                    builder: (context, snapshot){
+
+                    },
+                  );
                 }
                 return Scaffold(
                   body: Center(

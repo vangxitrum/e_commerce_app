@@ -24,14 +24,15 @@ class _ScreenHeaderState extends State<ScreenHeader> {
     return Container(
       width: double.infinity,
       height: 0.1 * size.height,
-      child:Row(
-          children: <Widget>[
-            ImageButton(icnSrc: "assets/icons/menu.svg", press: (){
-              scaffoldKey.currentState!.openDrawer();
-            }),
-            SizedBox(width: size.width*0.07,),
-            RoundedSearchField(hindText: "Search here", onChanged: widget.onChanged,w:0.7)
-          ]
+      child:Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(width: size.width*0.07,),
+              RoundedSearchField(hindText: "Search here", onChanged: widget.onChanged,w:0.8)
+            ]
+        ),
       ),
     );
   }

@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:se346/Screens/AdminScreen/Components/SideMenu.dart';
 import 'package:se346/Screens/AdminScreen/Components/screen_header.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/list_item.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
-import 'package:se346/components/image_button.dart';
-import 'package:se346/components/rounded_search_field.dart';
-import 'package:se346/constants.dart';
+
 
 import 'add_product_screen.dart';
+
+const String imageDefault = "https://firebasestorage.googleapis.com/v0/b/e-commerce-app-f6fa8.appspot.com/o/box.png?alt=media&token=cb48ee78-f3ef-434a-a5b6-1e9bf3a6c5b7";
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -21,6 +20,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  late String idProduct = "";
 
   @override
   void initState() {
@@ -29,10 +29,10 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference product = FirebaseFirestore.instance.collection('product');
+
     Size size = MediaQuery.of(context).size;
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection("product").orderBy("name", descending: false).snapshots(),
+      stream: FirebaseFirestore.instance.collection("product").where('name', isNotEqualTo: "").orderBy("name", descending: false).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if(snapshot.hasData){
           menuItem.clear();
@@ -41,7 +41,7 @@ class _BodyState extends State<Body> {
           }
           return Scaffold(
               key: _scaffoldKey,
-              drawer: SideMenu(),
+              //drawer: SideMenu(),
               body: Container(
                 height: size.height,
                 width: double.infinity,
@@ -77,15 +77,18 @@ class _BodyState extends State<Body> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-
-                        IconButton(onPressed: (){Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) {
-                                  return AddProductScreen();
-                                }
-                            )
-                        );}, icon: Icon(Icons.add)),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) {
+                                      return AddProductScreen();
+                                    }
+                                )
+                            );
+                          },
+                            icon: Icon(Icons.add)),
                         SizedBox(width: size.width * 0.024,),
                       ],
                     )
@@ -98,6 +101,7 @@ class _BodyState extends State<Body> {
       }
     );
   }
+
 }
 
 
