@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/text_field_editor.dart';
 import 'package:se346/components/AlterDialog.dart';
@@ -21,6 +22,7 @@ class _BodyState extends State<Body> {
   late String Name = "";
   late int Amount = 0;
   late int Price = 0;
+  late num sale = 0;
   late String Developers = "";
   late String Describe = "";
   @override
@@ -55,72 +57,71 @@ class _BodyState extends State<Body> {
                 ),
               ),
             ),
-          ),
-          Positioned(
-              top:size.height * 0.3,
-              left: size.width * 0.1,
-              right:size.width * 0.1,
-              height: size.height * 0.6,
+            Positioned(
+                top:size.height * 0.3,
+                left: size.width * 0.1,
+                right:size.width * 0.1,
+                height: size.height * 0.6,
 
-              child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(label: "Name",
-                          text: _product['name'],
-                          onChanged: (value){
-                            Name = value;
-                            print(Name);
-                          }),
-                      SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(
-                          label: "Amount",
-                          text: _product['amount'].toString(),
-                          onChanged: (value){
-                            try {
-                              Amount = int.parse(value);
-                            } catch (e, s) {
-                              print(s);
-                            }
-                          }),
-                      SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(
-                          label: "Price",
-                          text: _product['price'].toString(),
-                          onChanged: (value){
-                            try {
-                              Price = int.parse(value);
-                            } catch (e, s) {
-                              print(s);
-                            }
-                          }),
-                      SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(
-                            label: "Sale",
-                            text: "0%",
+                child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: size.height*0.02,),
+                        TextFieldEditor(label: "Name",
+                            text: _product['name'],
                             onChanged: (value){
-
+                              Name = value;
+                              print(Name);
                             }),
                         SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(
-                          label: "Developers",
-                          text: _product['developers'].toString(),
-                          onChanged: (value){
-                            Developers = value;
-                          }),
-                      SizedBox(height: size.height*0.02,),
-                      TextFieldEditor(
-                          label: "Describe",
-                          text: _product['describe'].toString(),
-                          onChanged: (value){
-                            Describe = value;
-                          }),
-                      SizedBox(height: size.height*0.02,),
-                    ],
-                  )
-              )
-          ),
-          Positioned(
+                        TextFieldEditor(
+                            label: "Amount",
+                            text: _product['amount'].toString(),
+                            onChanged: (value){
+                              try {
+                                Amount = int.parse(value);
+                              } catch (e, s) {
+                                print(s);
+                              }
+                            }),
+                        SizedBox(height: size.height*0.02,),
+                        TextFieldEditor(
+                            label: "Price",
+                            text: _product['price'].toString(),
+                            onChanged: (value){
+                              try {
+                                Price = int.parse(value);
+                              } catch (e, s) {
+                                print(s);
+                              }
+                            }),
+                        SizedBox(height: size.height*0.02,),
+                        TextFieldEditor(
+                              label: "Sale",
+                              text: _product['sale'].toString(),
+                              onChanged: (value){
+                                sale = num.parse(value);
+                              }),
+                          SizedBox(height: size.height*0.02,),
+                        TextFieldEditor(
+                            label: "Developers",
+                            text: _product['developers'].toString(),
+                            onChanged: (value){
+                              Developers = value;
+                            }),
+                        SizedBox(height: size.height*0.02,),
+                        TextFieldEditor(
+                            label: "Describe",
+                            text: _product['describe'].toString(),
+                            onChanged: (value){
+                              Describe = value;
+                            }),
+                        SizedBox(height: size.height*0.02,),
+                      ],
+                    )
+                )
+            ),
+            Positioned(
               bottom: 0,
               child:Row(
                 children: [
@@ -132,9 +133,11 @@ class _BodyState extends State<Body> {
                         'amount' : Amount != 0? Amount : _product['amount'],
                         'price' : Price != 0? Price : _product['price'],
                         'describe' : Describe != ""? Describe : _product['describe'],
-                        'developers' : Developers != ""? Developers : _product['developers']
+                        'developers' : Developers != ""? Developers : _product['developers'],
+                        'sale' : sale,
                       }).then((value) => print("User Updated"))
                         .catchError((error) => print("Failed to update user: $error"));
+
                       Navigator.of(context).pop();
                     },
                     child: Text("Save"),

@@ -158,6 +158,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       'price': 0,
       'searchKey': "",
       'stop': true,
+      'sale' : 0
     }).whenComplete(() {
       FirebaseFirestore.instance.collection('product').where('name', isEqualTo: "")
           .snapshots()

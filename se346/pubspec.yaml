@@ -31,8 +31,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   fluttericon: ^2.0.0
   flutter_svg: ^0.22.0
+  firebase_messaging: ^10.0.2
   image_picker: ^0.8.0+3
   firebase_core: ^1.2.0
+  flutter_local_notifications: ^6.0.0
   cloud_firestore: ^2.2.1
   image_cropper: ^1.4.0
 dev_dependencies:
