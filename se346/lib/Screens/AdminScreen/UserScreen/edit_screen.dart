@@ -19,6 +19,8 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   late String AvatarURL = widget.avatarURL;
+  late String name;
+  late String email;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -55,19 +57,33 @@ class _EditScreenState extends State<EditScreen> {
                     TextFieldEditor(
                       label: 'Full Name',
                       text: FirebaseAuth.instance.currentUser!.displayName!.toString(),
-                      onChanged: (name) {},
+                      onChanged: (value) {
+                        name = value;
+                      },
                     ),
                     SizedBox(height: size.height * 0.03),
                     TextFieldEditor(
-                      label: 'Password',
-                      text: 'password',
-                      onChanged: (email) {},
+                      label: 'Email',
+                      text: FirebaseAuth.instance.currentUser!.email!.toString(),
+                      onChanged: (value) {
+                        email = value;
+                      },
                     ),
                     SizedBox(height: size.height * 0.03),
-
                   ],
                 )
             ),
+            Positioned(
+                bottom: 0,
+                child: FlatButton(
+                  onPressed: (){
+                    FirebaseAuth.instance.currentUser!.updateDisplayName(name);
+                  },
+                  child: Text("Save", style: TextStyle(fontSize: 18,color: Colors.white)),
+                  minWidth: size.width,
+                  height: size.height * 0.08,
+                  color: Colors.lightBlueAccent,
+                ))
           ],
         ),
       ),

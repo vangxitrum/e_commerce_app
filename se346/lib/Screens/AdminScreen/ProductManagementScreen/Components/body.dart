@@ -47,7 +47,7 @@ class _BodyState extends State<Body> {
                 width: double.infinity,
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: size.height*0.03,),
+                    //SizedBox(height: size.height*0.03,),
                     ScreenHeader(
                         scaffoldKey: _scaffoldKey,
                         onChanged: (string)  {
@@ -60,10 +60,10 @@ class _BodyState extends State<Body> {
                           print(filteredList.length);
                         }
                     ),
-                    SizedBox(height: size.height*0.05,),
+                    //SizedBox(height: size.height*0.05,),
                     Flexible(
                         child: Container(
-                            height: size.height*0.75,
+                            height: size.height*0.8,
                             width: double.infinity,
                             child: ListView.builder(
                                 itemCount: filteredList.length,

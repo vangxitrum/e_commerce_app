@@ -32,12 +32,12 @@ class _BodyState extends State<Body> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height: 0.03 * size.width,),
+                    SizedBox(height: 0.05 * size.width,),
                     ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
-                    SizedBox(height: 0.02 * size.height,),
+                    //SizedBox(height: 0.02 * size.height,),
                     Container(
                         width: size.width,
-                        height: size.height * 0.86,
+                        height: size.height * 0.75,
                         child: ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {

@@ -60,7 +60,7 @@ class _BodyState extends State<Body> {
               key: _scaffoldKey,
               //drawer: SideMenu(),
               body: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('product').orderBy('name', descending: false).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('product').where('name', isNotEqualTo: "").orderBy('name', descending: false).snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if(!snapshot.hasData)
                       return Center(child: CircularProgressIndicator(),);
@@ -90,9 +90,9 @@ class _BodyState extends State<Body> {
                                 count: productCount,
                                 order: orderUnconfirmed,
                               ),
-                              SizedBox(height: size.height*0.03,),
+                              //SizedBox(height: size.height*0.03,),
                               Container(
-                                height: size.height * 0.84,
+                                height: size.height * 0.8,
                                 width: size.width,
                                 child: GridView.builder(
                                     itemCount: filter.length,

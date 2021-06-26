@@ -91,7 +91,29 @@ class _ListItemState extends State<ListItem> {
                           'stop': newValue
                         });
                       },),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.delete)),
+                    IconButton(onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context){
+                            return AlertDialog(
+                              title: Text("Notice"),
+                              content: Text("Bạn có chắc muốn xóa sản phẩm"),
+                              actions: [
+                                FlatButton(
+                                    onPressed: (){
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Cancel")),
+                                FlatButton(
+                                    onPressed: (){
+                                      _product.reference.delete();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Continue")),
+                              ],
+                            );
+                          });
+                      }, icon: Icon(Icons.delete)),
                   ],
                 )
               ],
