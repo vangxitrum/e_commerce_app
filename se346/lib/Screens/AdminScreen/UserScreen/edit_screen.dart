@@ -78,7 +78,8 @@ class _EditScreenState extends State<EditScreen> {
                 child: FlatButton(
                   onPressed: (){
                     FirebaseAuth.instance.currentUser!.updateDisplayName(name);
-                  },
+                    Navigator.pop(context);
+                    },
                   child: Text("Save", style: TextStyle(fontSize: 18,color: Colors.white)),
                   minWidth: size.width,
                   height: size.height * 0.08,

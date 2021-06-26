@@ -106,7 +106,7 @@ class _BodyState extends State<Body> {
                                           {
                                             if(filter[index]['amount'] >= 1){
                                               addCount = 0;
-                                              AddOrderInfo(1, filter[index].id, orderUnconfirmed.id);
+                                              AddOrderInfo(1, filter[index], orderUnconfirmed.id);
                                               orderUnconfirmed.reference.update(
                                                   {
                                                     'amount': orderUnconfirmed['amount'] + 1,
@@ -152,19 +152,19 @@ Future<void> AddOrder() async {
 }
 
 CollectionReference orderInfo = FirebaseFirestore.instance.collection('orderInfo');
-Future<void> AddOrderInfo(int amount, String idProduct, String idOrder) async {
+Future<void> AddOrderInfo(int amount, DocumentSnapshot Product, String idOrder) async {
   List<DocumentSnapshot> result = [];
   orderInfo
       .snapshots().listen((event) {
 
         result = event.docs.where((element) => (
             element['idOrder'] == idOrder &&
-                element['idProduct'] == idProduct
+                element['idProduct'] == Product.id
         )).toList();
 
         if(result.isEmpty){
           if(addCount == 0)
-            addInfo(amount, idProduct, idOrder);
+            addInfo(amount, Product, idOrder);
           return;
         }
         else{
@@ -176,12 +176,13 @@ Future<void> AddOrderInfo(int amount, String idProduct, String idOrder) async {
 }
 
 
-Future<void> addInfo(int amount, String idProduct, String idOrder){
+Future<void> addInfo(int amount, DocumentSnapshot Product, String idOrder){
   addCount++;
   return orderInfo.add({
     'amount' : amount,
-    'idProduct' : idProduct,
-    'idOrder' : idOrder
+    'idProduct' : Product.id,
+    'idOrder' : idOrder,
+    'sale' : Product['sale']
   });
 }
 Future<void> updateOrderInfo(DocumentSnapshot result, num amount) {

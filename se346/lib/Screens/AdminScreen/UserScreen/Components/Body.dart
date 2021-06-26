@@ -56,12 +56,6 @@ class _BodyState extends State<Body> {
         child: Stack(
           children: <Widget>[
             Positioned(
-              top:0,
-              left:0,
-              child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
-                Navigator.pop(context);
-              }),),
-            Positioned(
                 top: size.height * 0.3,
                 left: size.width * 0.1,
                 right: size.width * 0.1,

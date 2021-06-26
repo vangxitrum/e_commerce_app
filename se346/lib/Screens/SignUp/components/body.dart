@@ -28,6 +28,8 @@ class _Body extends State<Body>{
       ).then((value) {
         value.user!.updateDisplayName("User name");
         value.user!.updatePhotoURL(defaultAvatar);
+        //value.user!.reload();
+        FirebaseAuth.instance.signOut();
         //AddOrder();
         return value;
       });

@@ -69,7 +69,7 @@ class _BodyState extends State<Body> {
             child: Column(
               children: [
                 SizedBox(height: 0.03 * size.height,),
-                ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
+                //ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
                 SizedBox(height: 0.05 * size.height,),
                 RoundedContainer(
                     height: size.height * 0.35,

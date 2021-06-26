@@ -4,6 +4,7 @@ import 'package:se346/Screens/UserScreen/CartScreen/Components/user_buy_product.
 import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
 import 'package:intl/intl.dart';
+import 'package:se346/constants.dart';
 
 class UserOderInfo extends StatefulWidget {
   final DocumentSnapshot order;
@@ -25,6 +26,8 @@ class _UserOderInfoState extends State<UserOderInfo> {
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('orderInfo').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if(!snapshot.hasData)
+          return Scaffold(body: Center(child: CircularProgressIndicator(),),);
         listOrderProduct.clear();
         listOrderProduct = snapshot.data!.docs.where((u) => (
             u['idOrder'] == widget.order.id
@@ -36,12 +39,19 @@ class _UserOderInfoState extends State<UserOderInfo> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Visibility(
-                  visible: widget.order['status'] == 'waiting' ? true : false,
+                  visible: widget.order['status'] == 'Waiting' ? true : false,
                   child: FlatButton(
                     onPressed: (){
-                      setState(() {
-                        //productCount++;
+                      countCancel = -1;
+                      widget.order.reference.update({
+                        'status': 'Cancel'
+                      }).whenComplete(() {
+                        countCancel = 1;
                       });
+                      if(countCancel == -1){
+                        CancelOrder();
+                      }
+                      Navigator.pop(context);
                     },
                     minWidth: size.width,
                     height: size.height * 0.065,
@@ -166,5 +176,27 @@ class _UserOderInfoState extends State<UserOderInfo> {
         );
       }
     );
+  }
+  Future CancelOrder() async {
+    countCancel = 0;
+    FirebaseFirestore.instance.collection('orderInfo')
+        .where('idOrder', isEqualTo: widget.order.id)
+        .snapshots()
+        .listen((event) {
+      event.docs.forEach((element) {
+        countCancel = 0;
+        FirebaseFirestore.instance.collection('product')
+            .doc(element['idProduct']).snapshots()
+            .listen((event) {
+              if(countCancel == 0){
+                countCancel = 2;
+                event.reference.update({
+                  'amount' : event['amount'] + element['amount'],
+                });
+              }
+              return;
+        });
+      });
+    });
   }
 }
