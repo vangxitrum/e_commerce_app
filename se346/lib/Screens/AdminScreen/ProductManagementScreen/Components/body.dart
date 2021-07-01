@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
                           setState(() {filteredList = snapshot.data!.docs.where(
                                     (u) => (u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
                             });
-                          print(filteredList.length);
+                          //print(filteredList.length);
                         }
                     ),
                     //SizedBox(height: size.height*0.05,),
