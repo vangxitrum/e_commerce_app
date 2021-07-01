@@ -62,7 +62,7 @@ class ProductItem extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children:
                                 [
-                                  Text('\$' + (product['price']* (100 - product['sale'])/100).toString(),),
+                                  Text('\$' + (product['price'] * (100 - product['sale'])/100).toString(),),
                                   Text(product['sale'].toString() + '\%',style: TextStyle(color:Colors.red),),
                                 ]),
                           ],
