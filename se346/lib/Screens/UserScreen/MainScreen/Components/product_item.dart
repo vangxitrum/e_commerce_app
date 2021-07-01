@@ -58,13 +58,13 @@ class ProductItem extends StatelessWidget {
                             Text(product['name'],style: TextStyle(fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),
                             product['sale'] == 0 ?
                             Text('\$' + product['price'].toString(),)
-                            : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:
-                              [
-                                Text('\$' + (product['price']* (100 - product['sale'])/100).toString(),),
-                                Text(product['sale'].toString() + '\%',style: TextStyle(color:Colors.red),),
-                              ]),
+                                : Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:
+                                [
+                                  Text('\$' + (product['price']* (100 - product['sale'])/100).toString(),),
+                                  Text(product['sale'].toString() + '\%',style: TextStyle(color:Colors.red),),
+                                ]),
                           ],
                         ),
                       ),

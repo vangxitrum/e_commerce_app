@@ -38,27 +38,27 @@ class _ListItemState extends State<ListItem> {
         );
       },
       child: Container(
-            height: size.height * 0.1,
-            width: double.infinity,
-            margin: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 40),
-            decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10))
-            ),
-            child: AspectRatio(
-              aspectRatio: 3 / 1,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                      onTap: () {
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          AspectRatio(
+          height: size.height * 0.1,
+          width: double.infinity,
+          margin: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 40),
+          decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10))
+          ),
+          child: AspectRatio(
+            aspectRatio: 3 / 1,
+            child: Row(
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                    },
+                    child: Row(
+                      children: <Widget>[
+                        AspectRatio(
                             aspectRatio: 1/1,
                             child: Padding(
                               padding: EdgeInsets.all(10),
@@ -67,62 +67,62 @@ class _ListItemState extends State<ListItem> {
                                 child: Image.network(_product['imgSrc'],height: size.width * 0.3,width: size.width * 0.3,),
                               ),
                             )
-                          ),
+                        ),
 
-                          AspectRatio(aspectRatio: 4/3,
-                              child:Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(height: size.height * 0.015,),
-                                  Text(_product['name'],overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-                                  SizedBox(height: size.height * 0.01,),
-                                  Text("Amount: " + _product['amount'].toString()),
-                                  Text("Price: " + _product['price'].toString()),
-                                ],
-                              )
-                          ),
-                          SizedBox(width: size.width*0.1,),
-                        ],
-                      )
-                  ),
+                        AspectRatio(aspectRatio: 4/3,
+                            child:Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                SizedBox(height: size.height * 0.015,),
+                                Text(_product['name'],overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                                SizedBox(height: size.height * 0.01,),
+                                Text("Amount: " + _product['amount'].toString()),
+                                Text("Price: " + _product['price'].toString()),
+                              ],
+                            )
+                        ),
+                        SizedBox(width: size.width*0.1,),
+                      ],
+                    )
+                ),
 
-                  Row(
-                    children: <Widget>[
-                      Switch(value: _product['stop'],
-                        onChanged: (bool newValue) {
-                          _product.reference.update({
-                            'stop': newValue
+                Row(
+                  children: <Widget>[
+                    Switch(value: _product['stop'],
+                      onChanged: (bool newValue) {
+                        _product.reference.update({
+                          'stop': newValue
+                        });
+                      },),
+                    IconButton(onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context){
+                            return AlertDialog(
+                              title: Text("Notice"),
+                              content: Text("Bạn có chắc muốn xóa sản phẩm"),
+                              actions: [
+                                FlatButton(
+                                    onPressed: (){
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Cancel")),
+                                FlatButton(
+                                    onPressed: (){
+                                      _product.reference.delete();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Continue")),
+                              ],
+                            );
                           });
-                        },),
-                      IconButton(onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context){
-                              return AlertDialog(
-                                title: Text("Notice"),
-                                content: Text("Bạn có chắc muốn xóa sản phẩm"),
-                                actions: [
-                                  FlatButton(
-                                      onPressed: (){
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text("Cancel")),
-                                  FlatButton(
-                                      onPressed: (){
-                                        _product.reference.delete();
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text("Continue")),
-                                ],
-                              );
-                            });
-                        }, icon: Icon(Icons.delete)),
-                    ],
-                  )
-                ],
-              ),
-            )
-        ),
+                    }, icon: Icon(Icons.delete)),
+                  ],
+                )
+              ],
+            ),
+          )
+      ),
     );
   }
 }

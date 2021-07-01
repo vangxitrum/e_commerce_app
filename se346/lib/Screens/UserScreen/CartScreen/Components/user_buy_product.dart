@@ -46,10 +46,10 @@ class _UserBuyProductState extends State<UserBuyProduct> {
           print("length: " + _product.length.toString());
           return Column(
             children: [
-              SizedBox(height: size.height * 0.01,),
+              SizedBox(height: size.height * 0.008,),
               RoundedContainer(
-                  height: size.height * 0.18,
-                  width: size.width * 0.9,
+                  height: size.height * 0.2,
+                  width: size.width * 0.92,
                   color: Colors.white,
                   radius: 20,
                   child: Column(
@@ -71,7 +71,7 @@ class _UserBuyProductState extends State<UserBuyProduct> {
                             SizedBox(width: size.height * 0.01,),
                             Container(
                                 width: size.width * 0.6,
-                                height: size.height * 0.15,
+                                height: size.height * 0.16,
                                 child:Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -80,7 +80,7 @@ class _UserBuyProductState extends State<UserBuyProduct> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(_product[0]['price'].toString() + "\$"),
+                                        Text('\$'+(_product[0]['price']* (100 - _product[0]['sale'])/100).toString()),
                                         Text("x" + widget.orderInfo['amount'].toString())
                                       ],
                                     ),
@@ -89,7 +89,7 @@ class _UserBuyProductState extends State<UserBuyProduct> {
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text("subtotal"),
-                                        Text((_product[0]['price'] * widget.orderInfo['amount']).toString() + "\$"  ) // cho nay dung sum.tostring nay :v dung cai sum de tong don hang cho de
+                                        Text("\$"+(_product[0]['price']* (100 - _product[0]['sale'])/100 * widget.orderInfo['amount']).toString()   ) // cho nay dung sum.tostring nay :v dung cai sum de tong don hang cho de
                                       ],
                                     ),
                                   ],

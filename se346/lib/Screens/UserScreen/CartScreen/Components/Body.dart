@@ -54,7 +54,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Total: $total\$",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                Text("Total: \$$total",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                 SizedBox(width: size.width  * 0.1,),
                 FlatButton(
                   onPressed: () async {
