@@ -38,107 +38,110 @@ class _AddProductScreenState extends State<AddProductScreen> {
         if(!snapshot.hasData)
           return Center(child: CircularProgressIndicator(),);
         return Scaffold(
-          body: Container(
-            height: size.height,
-            width: size.width,
-            color: Colors.white,
-            child: Stack(
-              children: <Widget>[
-                Positioned(
-                  top:0,
-                  left:0,
-                  child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
-                    product.reference.delete();
-                    AddProductCount = -1;
-                    Navigator.pop(context);
-                  }),),
-                Positioned(
-                    top:size.height * 0.1,
-                    left: size.width * 0.1,
-                    right:size.width * 0.1,
-                    height: size.height * 0.8,
-                    child:SingleChildScrollView(
-                        child:Column(
-                          children: [
-                            ClipOval(
-                              child: Material(
-                                color: Colors.transparent,
-                                child: Ink.image(
-                                  image: NetworkImage(product['imgSrc']),
-                                  fit: BoxFit.cover,
-                                  width: 128,
-                                  height: 128,
-                                  child: InkWell(onTap: () {
-                                    getImageProduct.getImage(context);
-                                  }),
+          //resizeToAvoidBottomInset: false,
+          body: SingleChildScrollView(
+            child: Container(
+              height: size.height,
+              width: size.width,
+              color: Colors.white,
+              child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    top:0,
+                    left:0,
+                    child: ImageButton(icnSrc: "assets/icons/back.svg", press: (){
+                      product.reference.delete();
+                      AddProductCount = -1;
+                      Navigator.pop(context);
+                    }),),
+                  Positioned(
+                      top:size.height * 0.1,
+                      left: size.width * 0.1,
+                      right:size.width * 0.1,
+                      height: size.height * 0.8,
+                      child:SingleChildScrollView(
+                          child:Column(
+                            children: [
+                              ClipOval(
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: Ink.image(
+                                    image: NetworkImage(product['imgSrc']),
+                                    fit: BoxFit.cover,
+                                    width: 128,
+                                    height: 128,
+                                    child: InkWell(onTap: () {
+                                      getImageProduct.getImage(context);
+                                    }),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                            SizedBox(height: size.height*0.02,),
-                            TextFieldEditor(label: "Name",
-                                text: "",
-                                onChanged: (value){
-                                    name = value;
-                                }),
-                            SizedBox(height: size.height*0.02,),
-                            TextFieldEditor(
-                                label: "Amount",
-                                text: "",
-                                onChanged: (value){
-                                    amount = num.parse(value);
-                                }),
-                            SizedBox(height: size.height*0.02,),
-                            TextFieldEditor(
-                                label: "Price",
-                                text: "",
-                                onChanged: (value){
-                                    price = num.parse(value);
-                                }),
-                            SizedBox(height: size.height*0.02,),
-                            TextFieldEditor(
-                                label: "describe",
-                                text: "",
-                                onChanged: (value){
-                                    describe = value;
-                                }),
-                            SizedBox(height: size.height*0.02,),
-                            TextFieldEditor(
-                                label: "Developers",
-                                text: "",
-                                onChanged: (value){
-                                    developers = value;
-                                }),
-                            SizedBox(height: size.height*0.02,),
-                          ],
-                        )
-                    )
-                ),
-                Positioned(
-                    bottom: 0,
-                    child:Row(
-                      children: [
-                        FlatButton(
-                          onPressed: () {
-                            product.reference.update({
-                              'name' : name,
-                              'developers' : developers,
-                              'price' : price,
-                              'amount' : amount,
-                              'describe' : describe,
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Text("Save"),
-                          color: kPrimaryLightColor,
-                          minWidth: size.width,
-                          height: size.height*0.08,
-                        ),
-                      ],
-                    )
-                )
+                              SizedBox(height: size.height*0.02,),
+                              TextFieldEditor(label: "Name",
+                                  text: "",
+                                  onChanged: (value){
+                                      name = value;
+                                  }),
+                              SizedBox(height: size.height*0.02,),
+                              TextFieldEditor(
+                                  label: "Amount",
+                                  text: "",
+                                  onChanged: (value){
+                                      amount = num.parse(value);
+                                  }),
+                              SizedBox(height: size.height*0.02,),
+                              TextFieldEditor(
+                                  label: "Price",
+                                  text: "",
+                                  onChanged: (value){
+                                      price = num.parse(value);
+                                  }),
+                              SizedBox(height: size.height*0.02,),
+                              TextFieldEditor(
+                                  label: "describe",
+                                  text: "",
+                                  onChanged: (value){
+                                      describe = value;
+                                  }),
+                              SizedBox(height: size.height*0.02,),
+                              TextFieldEditor(
+                                  label: "Developers",
+                                  text: "",
+                                  onChanged: (value){
+                                      developers = value;
+                                  }),
+                              SizedBox(height: size.height*0.02,),
+                            ],
+                          )
+                      )
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      child:Row(
+                        children: [
+                          FlatButton(
+                            onPressed: () {
+                              product.reference.update({
+                                'name' : name,
+                                'developers' : developers,
+                                'price' : price,
+                                'amount' : amount,
+                                'describe' : describe,
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: Text("Save"),
+                            color: kPrimaryLightColor,
+                            minWidth: size.width,
+                            height: size.height*0.08,
+                          ),
+                        ],
+                      )
+                  )
 
-              ],
+                ],
+              ),
             ),
           ),
         );

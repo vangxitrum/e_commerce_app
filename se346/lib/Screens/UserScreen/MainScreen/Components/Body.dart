@@ -84,7 +84,7 @@ class _BodyState extends State<Body> {
                                   //filter.clear();
                                   //print("menuItem: " + menuItem.length.toString());
                                   setState(() {filter = snapshot.data!.docs.where(
-                                          (u) => (u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
+                                          (u) => ((u['stop'] == true)&&u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
                                   });
                                 },
                                 count: productCount,
