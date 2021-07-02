@@ -24,33 +24,33 @@ thống kê báo cáo chung. Cung cấp giáo diện đơn giản cho khách hà
 ### Đăng nhập / Đăng kí
    * Welcome
 	<p align="center">
-   <img src="images/welcome.png" height = "480" width="270"> <img src="screenshots/register.png" height = "480" width="270">
+   <img src="images/welcome.png" height = "480" width="270">
    </p>
    * Đăng nhập
    <p align="center">
-   <img src="images/login.png" height = "480" width="270"> <img src="screenshots/register.png" height = "480" width="270">
+   <img src="images/login.png" height = "480" width="270">
    </p>
   
    * Đăng kí
    
    <p align="center">
-   <img src="images/login.png" height = "480" width="270"> <img src="screenshots/register.png" height = "480" width="270">
+   <img src="images/login.png" height = "480" width="270"> 
    </p>
     
 ### admin ui
    * Tổng quan
 	<p align="center">
-   <img src="images/overview.png" height = "480" width="270"> <img src="screenshots/register.png" height = "480" width="270">
+   <img src="images/overview.png" height = "480" width="270"> 
    </p>
   
    * Quản lý đơn hàng
   <p align="center">
-   <img src="images/order_mag.png" height = "480" width="270"> <img src="screenshots/register.png" height = "480" width="270">
+   <img src="images/order_mag.png" height = "480" width="270"> 
    </p>
    * Quản lý sản phẩm
    
    <p align="center">
-   <img src="images/product_mag.png" height = "480" width="270"> <img src="screenshots/register.png" height = "480" width="270">
+   <img src="images/product_mag.png" height = "480" width="270">
    </p>
     
 ### user ui
