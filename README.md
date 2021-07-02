@@ -23,7 +23,7 @@ thống kê báo cáo chung. Cung cấp giáo diện đơn giản cho khách hà
 ## Chức năng
 ### Đăng nhập / Đăng kí
    * Welcome
-	<p align="center">
+   <p align="center">
    <img src="images/welcome.png" height = "480" width="270">
    </p>
    * Đăng nhập
@@ -39,12 +39,12 @@ thống kê báo cáo chung. Cung cấp giáo diện đơn giản cho khách hà
     
 ### admin ui
    * Tổng quan
-	<p align="center">
+   <p align="center">
    <img src="images/overview.png" height = "480" width="270"> 
    </p>
   
    * Quản lý đơn hàng
-  <p align="center">
+   <p align="center">
    <img src="images/order_mag.png" height = "480" width="270"> 
    </p>
    * Quản lý sản phẩm
@@ -55,7 +55,7 @@ thống kê báo cáo chung. Cung cấp giáo diện đơn giản cho khách hà
     
 ### user ui
    * Màn hình chính
-	<p align="center">
+   <p align="center">
    <img src="images/product.png" height = "480" width="270"> 
    </p>
   
