@@ -17,8 +17,8 @@ class Body extends StatefulWidget {
 }
 
 late List<Sale> data = [];
-late int totalRevenue = 0;
-late int waitingOrder = 0;
+late num totalRevenue = 0;
+late num waitingOrder = 0;
 
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -34,17 +34,17 @@ class _BodyState extends State<Body> {
     waitingOrder = 0;
     totalRevenue = 0;
     for(int index = 0; index < DateTime.now().month; index++){
-      late int total = 0;
+      late num total = 0;
       List<DocumentSnapshot> result = list.where((element) => (
           element['time'].toDate().month == index + 1 &&
           element['time'].toDate().year == DateTime.now().year
       )).toList();
       result.forEach((element) {
-        total += int.parse(
-          element['total'].toString());
+        total += element['total'];
         if(element['status'] == "Waiting") waitingOrder++;
       });
       totalRevenue += total;
+      total = total.toInt();
       listSale.add(Sale(total, index + 1));
     }
     return listSale;

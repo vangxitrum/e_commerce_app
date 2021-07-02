@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ChartPainter extends CustomPainter{
   final List<String> x;
-  final List<int> y;
-  final int min,max;
+  final List<num> y;
+  final num min,max;
   final Paint outlinePainter = Paint()
     ..strokeWidth = 1.0
     ..style = PaintingStyle.stroke

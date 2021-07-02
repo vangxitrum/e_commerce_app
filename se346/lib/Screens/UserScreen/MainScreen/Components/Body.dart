@@ -111,7 +111,7 @@ class _BodyState extends State<Body> {
                                               orderUnconfirmed.reference.update(
                                                   {
                                                     'amount': orderUnconfirmed['amount'] + 1,
-                                                    'total' : int.parse(orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100)))
+                                                    'total' : orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100))
                                                   });
                                               setState(() {
                                                 productCount++;

@@ -40,7 +40,7 @@ class _BodyState extends State<Body> {
                   AddOrderInfo(count, widget.product, orderUnconfirmed.id);
                   orderUnconfirmed.reference.update({
                     'amount': orderUnconfirmed['amount'] + count,
-                    'total' : int.parse(orderUnconfirmed['total'] + widget.product['price'] * count * (1 - (sale <= 1? sale : sale/100)))
+                    'total' : orderUnconfirmed['total'] + widget.product['price'] * count * (1 - (sale <= 1? sale : sale/100))
                   });
                   /*widget.product.reference.update({
                       'amount' : widget.product["amount"] - count

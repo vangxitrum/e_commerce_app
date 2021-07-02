@@ -14,14 +14,14 @@ class SaleChart extends StatefulWidget {
 }
 
 class _SaleChartState extends State<SaleChart> {
-  late int _min,_max;
-  late List<int> _y;
+  late num _min,_max;
+  late List<num> _y;
   final List<String> _x = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Agu","Sep","Oct","Nov","Dec"];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var max = 0, min = 0;
+    num max = 0, min = 0;
     widget.saleData.forEach((element) {
       min = min > element.amount ? element.amount : min;
       max = max < element.amount ? element.amount : max;
@@ -45,7 +45,7 @@ class _SaleChartState extends State<SaleChart> {
 //
 
 class Sale{
-  late int amount;
-  late int month;
+  late num amount;
+  late num month;
   Sale(this.amount,this.month);
 }
