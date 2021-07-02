@@ -26,7 +26,18 @@ class _ListItemState extends State<ListItem> {
   Widget build(BuildContext context) {
     DocumentSnapshot _product = widget.product;
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) {
+                  return ProductInfoScreen(product: _product);
+                }
+            )
+        );
+      },
+      child: Container(
           height: size.height * 0.1,
           width: double.infinity,
           margin: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 40),
@@ -44,26 +55,18 @@ class _ListItemState extends State<ListItem> {
               children: <Widget>[
                 GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) {
-                              return ProductInfoScreen(product: _product);
-                            }
-                        )
-                      );
                     },
                     child: Row(
                       children: <Widget>[
                         AspectRatio(
-                          aspectRatio: 1/1,
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child:ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(_product['imgSrc'],height: size.width * 0.3,width: size.width * 0.3,),
-                            ),
-                          )
+                            aspectRatio: 1/1,
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child:ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(_product['imgSrc'],height: size.width * 0.3,width: size.width * 0.3,),
+                              ),
+                            )
                         ),
 
                         AspectRatio(aspectRatio: 4/3,
@@ -113,13 +116,14 @@ class _ListItemState extends State<ListItem> {
                               ],
                             );
                           });
-                      }, icon: Icon(Icons.delete)),
+                    }, icon: Icon(Icons.delete)),
                   ],
                 )
               ],
             ),
           )
-      );
+      ),
+    );
   }
 }
 

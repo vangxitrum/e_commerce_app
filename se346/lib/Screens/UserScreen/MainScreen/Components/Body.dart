@@ -84,7 +84,7 @@ class _BodyState extends State<Body> {
                                   //filter.clear();
                                   //print("menuItem: " + menuItem.length.toString());
                                   setState(() {filter = snapshot.data!.docs.where(
-                                          (u) => (u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
+                                          (u) => ((u['stop'] == true)&&u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
                                   });
                                 },
                                 count: productCount,
@@ -107,10 +107,11 @@ class _BodyState extends State<Body> {
                                             if(filter[index]['amount'] >= 1){
                                               addCount = 0;
                                               AddOrderInfo(1, filter[index], orderUnconfirmed.id);
+                                              num sale = filter[index]['sale'];
                                               orderUnconfirmed.reference.update(
                                                   {
                                                     'amount': orderUnconfirmed['amount'] + 1,
-                                                    'total' : orderUnconfirmed['total'] + filter[index]['price'],
+                                                    'total' : orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100))
                                                   });
                                               setState(() {
                                                 productCount++;

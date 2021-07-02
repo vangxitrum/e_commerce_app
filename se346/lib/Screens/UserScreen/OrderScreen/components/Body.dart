@@ -34,8 +34,6 @@ class _BodyState extends State<Body> {
                     child: Column(
                       children: <Widget>[
                         SizedBox(height: 0.03 * size.width,),
-                        ScreenHeader(onChanged: (value){}, scaffoldKey: _scaffoldKey),
-                        SizedBox(height: 0.02 * size.height,),
                         Container(
                             width: size.width,
                             height: size.height * 0.77,

@@ -19,42 +19,44 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   late int count = 0;
-  late int total = 0;
+  late num total = 0;
+
   @override
   Widget build(BuildContext context) {
+    num sale = widget.product['sale'];
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Total: $total\$",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          Text("Total: " + total.toStringAsFixed(2) + "\$",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
           SizedBox(width: size.width  * 0.1,),
           FlatButton(
-              onPressed: () {
-                if(count > 0) {
-                  if(count <= widget.product["amount"]){
-                    addCount = 0;
-                    AddOrderInfo(count, widget.product, orderUnconfirmed.id);
-                    orderUnconfirmed.reference.update({
-                      'amount': orderUnconfirmed['amount'] + count,
-                      'total' : orderUnconfirmed['total'] + widget.product['price'] * count
-                    });
-                    /*widget.product.reference.update({
+            onPressed: () {
+              if(count > 0) {
+                if(count <= widget.product["amount"]){
+                  addCount = 0;
+                  AddOrderInfo(count, widget.product, orderUnconfirmed.id);
+                  orderUnconfirmed.reference.update({
+                    'amount': orderUnconfirmed['amount'] + count,
+                    'total' : orderUnconfirmed['total'] + widget.product['price'] * count * (1 - (sale <= 1? sale : sale/100))
+                  });
+                  /*widget.product.reference.update({
                       'amount' : widget.product["amount"] - count
                     });*/
-                    productCount += count;
-                  }
-                  else{
-                  }
+                  productCount += count;
                 }
-                Navigator.pop(context);
-              },
-              minWidth: size.width * 0.5,
-              height: size.height * 0.1,
-              color: Colors.lightBlueAccent,
-              child: Text("Add to cart",style: TextStyle(fontSize: 18,color: Colors.white),),
-            ),
+                else{
+                }
+              }
+              Navigator.pop(context);
+            },
+            minWidth: size.width * 0.5,
+            height: size.height * 0.1,
+            color: Colors.lightBlueAccent,
+            child: Text("Add to cart",style: TextStyle(fontSize: 18,color: Colors.white),),
+          ),
         ],
       ),
       body: Container(
@@ -92,30 +94,43 @@ class _BodyState extends State<Body> {
                       children: [
                         SizedBox(height: size.height * 0.1,),
                         Container(
-                          width: size.width * 0.5,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-                              Text(widget.product['developers'],style: TextStyle(color: Colors.black45,fontSize: 17),overflow: TextOverflow.ellipsis,maxLines: 2,),
-                              Text(widget.product['price'].toString() + "\$",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
-                              Text("Kho: " + widget.product["amount"].toString(), style: TextStyle(fontSize: 20),),
-                            ],
-                          )
+                            width: size.width * 0.5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.product['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
+                                Text(widget.product['developers'],style: TextStyle(color: Colors.black45,fontSize: 17),overflow: TextOverflow.ellipsis,maxLines: 2,),
+
+                                widget.product['sale'] == 0 ?
+                                Text("\$" + widget.product['price'].toString() ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),)
+                                    : Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children:
+                                    [
+                                      Text('\$' + (widget.product['price']* (100 - widget.product['sale'])/100).toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30),),
+                                      Text('-' + widget.product['sale'].toString() + '\%',style: TextStyle(color:Colors.red,fontSize: 18),),
+                                    ]),
+                                Text("Kho: " + widget.product["amount"].toString(), style: TextStyle(fontSize: 20),),
+                              ],
+                            )
+
                         ),
                         SizedBox(height: size.height * 0.05,),
                         Row(
                           children: [
                             ImageButton(icnSrc: 'assets/icons/remove.svg', press: (){
                               setState(() {
-                                if(count > 0) count--;
-                            }); }),
+                                if(count > 0){
+                                  count--;
+                                  total = widget.product['price'].toInt() * count * (1 - (sale <= 1? sale : sale/100));
+                                }
+                              }); }),
                             Text(count.toString() ,style:TextStyle(fontSize: 30)),
                             ImageButton(icnSrc: 'assets/icons/add.svg', press: (){
                               setState(() {
                                 if(count < widget.product["amount"]){
                                   count++;
-                                  total = widget.product['price'].toInt() * count;
+                                  total = widget.product['price'] * (1 - (sale <= 1? sale : sale/100)) * count ;
                                 }
                               }); }),
                           ],

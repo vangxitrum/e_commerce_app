@@ -56,7 +56,15 @@ class ProductItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(product['name'],style: TextStyle(fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),
-                            Text(product['price'].toString(),),
+                            product['sale'] == 0 ?
+                            Text('\$' + product['price'].toString(),)
+                                : Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:
+                                [
+                                  Text('\$' + (product['price'] * (100 - product['sale'])/100).toString(),),
+                                  Text(product['sale'].toString() + '\%',style: TextStyle(color:Colors.red),),
+                                ]),
                           ],
                         ),
                       ),

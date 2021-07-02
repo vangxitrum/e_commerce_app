@@ -15,7 +15,7 @@ class Body extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Welcome to Ecommerce",
+            "Welcome to Game Store",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: size.height * 0.05),

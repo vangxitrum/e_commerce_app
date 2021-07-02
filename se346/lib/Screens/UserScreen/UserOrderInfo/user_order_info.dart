@@ -151,7 +151,7 @@ class _UserOderInfoState extends State<UserOderInfo> {
                       SizedBox(height: size.height *0.01,),
                       Container(
                           width: size.width,
-                          height: widget.order['status'] == 'waiting' ? size.height * 0.57 : size.height * 0.6,
+                          height: widget.order['status'] == 'Waiting' ? size.height * 0.57 : size.height * 0.6,
                           child: ListView.builder(
                                     itemCount: listOrderProduct.length,
                                     itemBuilder: (context, index) {
@@ -168,7 +168,7 @@ class _UserOderInfoState extends State<UserOderInfo> {
                             Text(widget.order['total'].toString() + "\$"),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 )

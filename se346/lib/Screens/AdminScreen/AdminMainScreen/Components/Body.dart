@@ -17,7 +17,7 @@ class Body extends StatefulWidget {
 }
 
 late List<Sale> data = [];
-late int totalRevenue = 0;
+late double totalRevenue = 0;
 late int waitingOrder = 0;
 
 class _BodyState extends State<Body> {
@@ -34,18 +34,18 @@ class _BodyState extends State<Body> {
     waitingOrder = 0;
     totalRevenue = 0;
     for(int index = 0; index < DateTime.now().month; index++){
-      late int total = 0;
+      late double total = 0;
       List<DocumentSnapshot> result = list.where((element) => (
           element['time'].toDate().month == index + 1 &&
           element['time'].toDate().year == DateTime.now().year
       )).toList();
       result.forEach((element) {
-        total += int.parse(
-          element['total'].toString());
+        total += double.parse(
+          element['total'].toString()).round();
         if(element['status'] == "Waiting") waitingOrder++;
       });
-      totalRevenue += total;
-      listSale.add(Sale(total, index + 1));
+      totalRevenue += total.round();
+      listSale.add(Sale(total.round(), index + 1));
     }
     return listSale;
   }
@@ -98,7 +98,7 @@ class _BodyState extends State<Body> {
                               SizedBox(height: size.width * 0.04,),
                               Text("Total revenue",style: TextStyle(fontWeight: FontWeight.bold,fontSize:23)),
                               SizedBox(height: size.width * 0.1,),
-                              Text(totalRevenue.toString() + "\$",
+                              Text(totalRevenue.round().toString() + "\$",
                                 style: TextStyle(fontSize: 20),)
                             ],
                           ),
