@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
+import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
 
 class UserBuyProduct extends StatefulWidget {
@@ -48,7 +49,7 @@ class _UserBuyProductState extends State<UserBuyProduct> {
             children: [
               SizedBox(height: size.height * 0.008,),
               RoundedContainer(
-                  height: size.height * 0.2,
+                  height: size.height * 0.22,
                   width: size.width * 0.92,
                   color: Colors.white,
                   radius: 20,
@@ -71,7 +72,7 @@ class _UserBuyProductState extends State<UserBuyProduct> {
                             SizedBox(width: size.height * 0.01,),
                             Container(
                                 width: size.width * 0.6,
-                                height: size.height * 0.16,
+                                height: size.height * 0.18,
                                 child:Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -85,13 +86,33 @@ class _UserBuyProductState extends State<UserBuyProduct> {
                                       ],
                                     ),
                                     Divider(color: Colors.black54,thickness: 2,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    Column(
                                       children: [
-                                        Text("subtotal"),
-                                        Text("\$"+(_product[0]['price']* (100 - _product[0]['sale'])/100 * widget.orderInfo['amount']).toString()   ) // cho nay dung sum.tostring nay :v dung cai sum de tong don hang cho de
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("subtotal"),
+                                            Text("\$"+(_product[0]['price']* (100 - _product[0]['sale'])/100 * widget.orderInfo['amount']).toString()   ) // cho nay dung sum.tostring nay :v dung cai sum de tong don hang cho de
+                                          ],
+                                        ),
+                                        SizedBox(height: size.height *0.005,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            IconButton(onPressed: (){}, icon: Icon(Icons.delete),iconSize: 20,) ,
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                IconButton(onPressed: (){}, icon: Icon(Icons.remove),iconSize: 20,) ,
+                                                IconButton(onPressed: (){}, icon: Icon(Icons.add),iconSize: 20,),
+
+
+                                              ],
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    ),
+                                    )
                                   ],
                                 )
                             )
