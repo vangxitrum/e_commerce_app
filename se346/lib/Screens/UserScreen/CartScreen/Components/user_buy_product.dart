@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
+import 'package:se346/Screens/UserScreen/MainScreen/Components/Body.dart';
 import 'package:se346/components/image_button.dart';
 import 'package:se346/components/rounded_containter.dart';
 
@@ -99,14 +100,66 @@ class _UserBuyProductState extends State<UserBuyProduct> {
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            IconButton(onPressed: (){}, icon: Icon(Icons.delete),iconSize: 20,) ,
+                                            IconButton(
+                                              onPressed: (){
+                                                num sale = widget.orderInfo['sale'];
+                                                int update = 0;
+                                                num amount = widget.orderInfo['amount'];
+                                                if(update == 0){
+                                                  update = 1;
+                                                  orderUnconfirmed.reference.update(
+                                                      {
+                                                        'amount' : orderUnconfirmed['amount'] - amount,
+                                                        'total' : orderUnconfirmed['total'] - _product[0]['price'] * amount * (1 - (sale <= 1? sale : sale/100))
+                                                      }).whenComplete(() {
+                                                    widget.orderInfo.reference.delete();
+                                                  });
+                                                }
+                                              },
+                                              icon: Icon(Icons.delete),iconSize: 20,) ,
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
-                                                IconButton(onPressed: (){}, icon: Icon(Icons.remove),iconSize: 20,) ,
-                                                IconButton(onPressed: (){}, icon: Icon(Icons.add),iconSize: 20,),
+                                                IconButton(
+                                                  onPressed: (){
+                                                    num sale = widget.orderInfo['sale'];
+                                                    int update = 0;
+                                                    widget.orderInfo.reference.update({
+                                                      'amount' : widget.orderInfo['amount'] - 1
+                                                    });
+                                                    if(update == 0){
+                                                      update = 1;
+                                                      orderUnconfirmed.reference.update(
+                                                          {
+                                                            'amount' : orderUnconfirmed['amount'] - 1,
+                                                            'total' : orderUnconfirmed['total'] - _product[0]['price'] * (1 - (sale <= 1? sale : sale/100))
+                                                          });
+                                                    }
+                                                    if(widget.orderInfo["amount"] == 1){
+                                                      widget.orderInfo.reference.delete();
+                                                    }
+                                                  },
+                                                  icon: Icon(Icons.remove),iconSize: 20,
+                                                ),
+                                                IconButton(
+                                                  onPressed: (){
+                                                    num sale = widget.orderInfo['sale'];
+                                                    int update = 0;
+                                                      widget.orderInfo.reference.update({
+                                                      'amount' : widget.orderInfo['amount'] + 1
+                                                      });
+                                                      if(update == 0){
+                                                        update = 1;
+                                                        orderUnconfirmed.reference.update(
+                                                            {
+                                                              'amount' : orderUnconfirmed['amount'] + 1,
+                                                              'total' : orderUnconfirmed['total'] + _product[0]['price'] * (1 - (sale <= 1? sale : sale/100))
+                                                            });
+                                                      }
 
-
+                                                  },
+                                                  icon: Icon(Icons.add),iconSize: 20,
+                                                ),
                                               ],
                                             ),
                                           ],

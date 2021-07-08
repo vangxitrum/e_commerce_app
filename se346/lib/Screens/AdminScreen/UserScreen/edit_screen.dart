@@ -20,8 +20,11 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   late String AvatarURL = widget.avatarURL;
-  late String name;
-  late String email;
+  late String name = FirebaseAuth.instance.currentUser!.displayName!.toString();
+  late String email = FirebaseAuth.instance.currentUser!.email!.toString();
+  late String currentPass = "";
+  late String newPass = "";
+  late String rePass = "";
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -60,7 +63,7 @@ class _EditScreenState extends State<EditScreen> {
                             ),
                             TextFieldEditor(
                                     label: 'Full Name',
-                                    text: FirebaseAuth.instance.currentUser!.displayName!.toString(),
+                                    text: name,
                                     onChanged: (value) {
                                       name = value;
                                     },
@@ -68,7 +71,7 @@ class _EditScreenState extends State<EditScreen> {
                             SizedBox(height: size.height * 0.03),
                             TextFieldEditor(
                                     label: 'Email',
-                                    text: FirebaseAuth.instance.currentUser!.email!.toString(),
+                                    text: email,
                                     onChanged: (value) {
                                       email = value;
                                     },
@@ -91,19 +94,19 @@ class _EditScreenState extends State<EditScreen> {
                                   TextFieldEditor(
                                     label: 'Current Password',
                                     text: "",
-                                    onChanged: (value) {},
+                                    onChanged: (value) {currentPass = value;},
                                   ),
                                   SizedBox(height: size.height * 0.03),
                                   TextFieldEditor(
                                     label: 'New Password',
                                     text: "",
-                                    onChanged: (value) {},
+                                    onChanged: (value) {newPass = value;},
                                   ),
                                   SizedBox(height: size.height * 0.03),
                                   TextFieldEditor(
                                     label: 'Re-Password',
                                     text: "",
-                                    onChanged: (value) {},
+                                    onChanged: (value) {rePass = value;},
                                   ),
                                 ],
                               ),
@@ -116,7 +119,10 @@ class _EditScreenState extends State<EditScreen> {
                 Positioned(
                     bottom: 0,
                     child: FlatButton(
-                      onPressed: (){
+                      onPressed: () {
+                        if(widget.check)
+                          if(rePass == newPass && currentPass != "" && newPass != "")
+                            _changePass();
                         FirebaseAuth.instance.currentUser!.updateDisplayName(name);
                         Navigator.pop(context);
                         },
@@ -129,5 +135,21 @@ class _EditScreenState extends State<EditScreen> {
             ),
           ),
     );
+  }
+
+  void _changePass() async {
+    final user = await FirebaseAuth.instance.currentUser;
+    final cred = EmailAuthProvider.credential(
+        email: user!.email.toString(), password: currentPass);
+
+    user.reauthenticateWithCredential(cred).then((value) {
+      user.updatePassword(newPass).then((_) {
+        //Success, do something
+      }).catchError((error) {
+        //Error, show something
+      });
+    }).catchError((err) {
+
+    });
   }
 }

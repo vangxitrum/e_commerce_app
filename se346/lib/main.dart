@@ -9,6 +9,7 @@ import 'package:se346/Screens/UserScreen/MainScreen/main_screen.dart';
 import 'package:se346/Screens/UserScreen/user_screen.dart';
 import 'package:se346/Screens/Welcome/welcome_screen.dart';
 import 'package:se346/constants.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Screens/AdminScreen/AdminMainScreen/overview_screen.dart';
@@ -28,6 +29,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -44,6 +46,8 @@ class _MyAppState extends State<MyApp> {
     NotificationPermission();
     super.initState();
   }
+
+
 
   void getToken() async {
     print(await messaging.getToken());
@@ -74,12 +78,12 @@ class _MyAppState extends State<MyApp> {
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, snapshot){
                 if(snapshot.connectionState == ConnectionState.active) {
-                  Object? user = snapshot.data;
+                  User? user = snapshot.data as User?;
                   if(user == null) {
                     return WelcomeScreen();   //  login screen
                   }
                   else {
-                    return StreamBuilder(
+                      return StreamBuilder(
                         stream: FirebaseFirestore.instance.collection('admin').snapshots(),
                         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
                           if(!snapshot.hasData)

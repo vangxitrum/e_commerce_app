@@ -62,86 +62,86 @@ class _BodyState extends State<Body> {
               key: _scaffoldKey,
               //drawer: SideMenu(),
               body: StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('product').where('name', isNotEqualTo: "").orderBy('name', descending: false).snapshots(),
+                  stream: FirebaseFirestore.instance.collection('product').where('name', isNotEqualTo: "").where('stop', isEqualTo: true).orderBy('name', descending: false).snapshots(),
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if(!snapshot.hasData)
                       return Center(child: CircularProgressIndicator(),);
-
-                    item.clear();
-                    for(int i = 0; i < snapshot.data!.docs.length; i++){
-                      if(snapshot.data!.docs[i]['stop'] == true)
+                    else{
+                      item.clear();
+                      for(int i = 0; i < snapshot.data!.docs.length; i++){
                         item.add(snapshot.data!.docs[i]);
-                    }
+                      }
+                      return Container(
+                          height: size.height,
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            child:Column(
+                              children: <Widget>[
+                                SizedBox(height: size.height*0.03,),
+                                header = new MainScreenHeader(
+                                  scaffoldKey: _scaffoldKey,
+                                  onChanged: (string)  {
+                                    //filter.clear();
+                                    //print("menuItem: " + menuItem.length.toString());
+                                    setState(() {filter = snapshot.data!.docs.where(
+                                            (u) => ((u['stop'] == true)&&u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
+                                    });
+                                  },
+                                  count: productCount,
+                                  order: orderUnconfirmed,
+                                ),
+                                //SizedBox(height: size.height*0.03,),
 
-                    return Container(
-                        height: size.height,
-                        width: double.infinity,
-                        child: SingleChildScrollView(
-                          child:Column(
-                            children: <Widget>[
-                              SizedBox(height: size.height*0.03,),
-                              header = new MainScreenHeader(
-                                scaffoldKey: _scaffoldKey,
-                                onChanged: (string)  {
-                                  //filter.clear();
-                                  //print("menuItem: " + menuItem.length.toString());
-                                  setState(() {filter = snapshot.data!.docs.where(
-                                          (u) => ((u['stop'] == true)&&u['name'].toUpperCase().contains(string.toUpperCase()))).toList();
-                                  });
-                                },
-                                count: productCount,
-                                order: orderUnconfirmed,
-                              ),
-                              //SizedBox(height: size.height*0.03,),
-                              Column(
-                                children: [
-                                  Container(
-                                    height: size.height * 0.32,
-                                    width: size.width,
-                                    child: CarouselWithDotsPage(imgList: ['https://gamek.mediacdn.vn/133514250583805952/2021/5/20/-16214825828142048416160.jpg','https://upload.motgame.vn/photos/motgame-vn/2021/03/lmht-quay-11-5-cung-ezreal-khong-than-thoai-cua-cac-cao-thu-han-01.jpg'],)
-                                  )
-                                  ,Container(
-                                    height: size.height * 0.48,
-                                    width: size.width,
-                                    child: GridView.builder(
-                                        itemCount: filter.length,
-                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                        ),
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                              padding: EdgeInsets.only(left:8,right: 8,top:4,bottom:4),
-                                              child: ProductItem(product: filter[index],onChanged: ()
-                                              {
-                                                if(filter[index]['amount'] >= 1){
-                                                  addCount = 0;
-                                                  AddOrderInfo(1, filter[index], orderUnconfirmed.id);
-                                                  num sale = filter[index]['sale'];
-                                                  orderUnconfirmed.reference.update(
-                                                      {
-                                                        'amount': orderUnconfirmed['amount'] + 1,
-                                                        'total' : orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100))
-                                                      });
-                                                  setState(() {
-                                                    productCount++;
-                                                  });
-                                                  /*filter[index].reference.update(
+                                Column(
+                                  children: [
+                                    Container(
+                                      height: size.height * 0.32,
+                                      width: size.width,
+                                      child: CarouselWithDotsPage(imgList: ['https://gamek.mediacdn.vn/133514250583805952/2021/5/20/-16214825828142048416160.jpg','https://upload.motgame.vn/photos/motgame-vn/2021/03/lmht-quay-11-5-cung-ezreal-khong-than-thoai-cua-cac-cao-thu-han-01.jpg'],)
+                                    ),
+                                    Container(
+                                      height: size.height * 0.48,
+                                      width: size.width,
+                                      child: GridView.builder(
+                                          itemCount: filter.length,
+                                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                          ),
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                                padding: EdgeInsets.only(left:8,right: 8,top:4,bottom:4),
+                                                child: ProductItem(product: filter[index],onChanged: ()
+                                                {
+                                                  if(filter[index]['amount'] >= 1){
+                                                    addCount = 0;
+                                                    AddOrderInfo(1, filter[index], orderUnconfirmed.id);
+                                                    num sale = filter[index]['sale'];
+                                                    orderUnconfirmed.reference.update(
+                                                        {
+                                                          'amount': orderUnconfirmed['amount'] + 1,
+                                                          'total' : orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100))
+                                                        });
+                                                    setState(() {
+                                                      productCount++;
+                                                    });
+                                                    /*filter[index].reference.update(
                                                   {
                                                     'amount' : filter[index]['amount'] - 1
                                                   });*/
-                                                }
-                                              },)
-                                          );}),
+                                                  }
+                                                },)
+                                            );}),
 
 
-                                  ),
-                                ],
-                              )
-                              //ProductItem(name: "League of Legend",price: "100\$",img: "assets/images/lol.png",),
-                            ],
-                          ),
-                        )
-                    );
+                                    ),
+                                  ],
+                                )
+                                //ProductItem(name: "League of Legend",price: "100\$",img: "assets/images/lol.png",),
+                              ],
+                            ),
+                          )
+                      );
+                    }
                   }
               )
           );

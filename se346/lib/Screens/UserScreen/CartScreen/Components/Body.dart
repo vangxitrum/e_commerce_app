@@ -41,7 +41,6 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    num total = widget.order['total'];
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('orderInfo').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -54,7 +53,15 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Total: \$$total",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection('order').snapshots(),
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if(!snapshot.hasData)
+                      return Center(child: CircularProgressIndicator(),);
+                    num total = snapshot.data!.docs.where((element) => element.id == widget.order.id).first['total'];
+                    return Text("Total: \$$total",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),);
+                  }
+                ),
                 SizedBox(width: size.width  * 0.1,),
                 FlatButton(
                   onPressed: () async {
