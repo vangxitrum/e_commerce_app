@@ -1,8 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
 import 'package:se346/Screens/UserScreen/Component/SideMenu.dart';
+import 'package:se346/Screens/UserScreen/MainScreen/Components/caroucel_with_dots.dart';
 import 'package:se346/Screens/UserScreen/MainScreen/Components/header.dart';
 import 'package:se346/Screens/UserScreen/MainScreen/Components/product_item.dart';
 import 'package:se346/constants.dart';
@@ -91,39 +93,50 @@ class _BodyState extends State<Body> {
                                 order: orderUnconfirmed,
                               ),
                               //SizedBox(height: size.height*0.03,),
-                              Container(
-                                height: size.height * 0.8,
-                                width: size.width,
-                                child: GridView.builder(
-                                    itemCount: filter.length,
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                    ),
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                          padding: EdgeInsets.only(left:8,right: 8,top:4,bottom:4),
-                                          child: ProductItem(product: filter[index],onChanged: ()
-                                          {
-                                            if(filter[index]['amount'] >= 1){
-                                              addCount = 0;
-                                              AddOrderInfo(1, filter[index], orderUnconfirmed.id);
-                                              num sale = filter[index]['sale'];
-                                              orderUnconfirmed.reference.update(
-                                                  {
-                                                    'amount': orderUnconfirmed['amount'] + 1,
-                                                    'total' : orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100))
+                              Column(
+                                children: [
+                                  Container(
+                                    height: size.height * 0.32,
+                                    width: size.width,
+                                    child: CarouselWithDotsPage(imgList: ['https://gamek.mediacdn.vn/133514250583805952/2021/5/20/-16214825828142048416160.jpg','https://upload.motgame.vn/photos/motgame-vn/2021/03/lmht-quay-11-5-cung-ezreal-khong-than-thoai-cua-cac-cao-thu-han-01.jpg'],)
+                                  )
+                                  ,Container(
+                                    height: size.height * 0.48,
+                                    width: size.width,
+                                    child: GridView.builder(
+                                        itemCount: filter.length,
+                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                        ),
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                              padding: EdgeInsets.only(left:8,right: 8,top:4,bottom:4),
+                                              child: ProductItem(product: filter[index],onChanged: ()
+                                              {
+                                                if(filter[index]['amount'] >= 1){
+                                                  addCount = 0;
+                                                  AddOrderInfo(1, filter[index], orderUnconfirmed.id);
+                                                  num sale = filter[index]['sale'];
+                                                  orderUnconfirmed.reference.update(
+                                                      {
+                                                        'amount': orderUnconfirmed['amount'] + 1,
+                                                        'total' : orderUnconfirmed['total'] + filter[index]['price'] * (1 - (sale <= 1? sale : sale/100))
+                                                      });
+                                                  setState(() {
+                                                    productCount++;
                                                   });
-                                              setState(() {
-                                                productCount++;
-                                              });
-                                              /*filter[index].reference.update(
+                                                  /*filter[index].reference.update(
                                                   {
                                                     'amount' : filter[index]['amount'] - 1
                                                   });*/
-                                            }
-                                          },)
-                                      );}),
-                              ),
+                                                }
+                                              },)
+                                          );}),
+
+
+                                  ),
+                                ],
+                              )
                               //ProductItem(name: "League of Legend",price: "100\$",img: "assets/images/lol.png",),
                             ],
                           ),
