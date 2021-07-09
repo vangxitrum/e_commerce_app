@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/text_field_editor.dart';
 import 'package:se346/Screens/UserScreen/CartScreen/Components/user_buy_product.dart';
 import 'package:se346/Screens/UserScreen/MainScreen/Components/Body.dart';
 import 'package:se346/components/image_button.dart';
+import 'package:se346/components/local_notification_service.dart';
 import 'package:se346/constants.dart';
 
 class Body extends StatefulWidget {
@@ -81,6 +83,18 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                           'status': "Waiting",
                           'email': email,
                           'numberPhone': numberPhone
+                        }).whenComplete(() {
+                          bool f = true;
+                          String? name = FirebaseAuth.instance.currentUser!.displayName;
+                          FirebaseFirestore.instance.collection('admin')
+                              .snapshots().listen((event) {
+                                if(f){
+                                  f = false;
+                                  event.docs.forEach((element) {
+                                    sendPushMessage(element['token'], "Đơn hàng mới được đặt", "$name đã đặt 1 đơn hàng");
+                                  });
+                                }
+                              });
                         });
                         listOrderInfoShow.forEach((order) {
                           FirebaseFirestore.instance.collection('product')

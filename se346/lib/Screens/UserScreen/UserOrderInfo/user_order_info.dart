@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:se346/Screens/UserScreen/CartScreen/Components/user_buy_product.dart';
 import 'package:se346/components/image_button.dart';
+import 'package:se346/components/local_notification_service.dart';
 import 'package:se346/components/rounded_containter.dart';
 import 'package:intl/intl.dart';
 import 'package:se346/constants.dart';
@@ -49,7 +51,19 @@ class _UserOderInfoState extends State<UserOderInfo> {
                         countCancel = 1;
                       });
                       if(countCancel == -1){
-                        CancelOrder();
+                        CancelOrder().whenComplete((){
+                          bool f = true;
+                          String? name = FirebaseAuth.instance.currentUser!.displayName;
+                          FirebaseFirestore.instance.collection('admin')
+                              .snapshots().listen((event) {
+                            if(f){
+                              f = false;
+                              event.docs.forEach((element) {
+                                sendPushMessage(element['token'], "Có đơn hàng đã bị hủy", "$name đã hủy 1 đơn hàng");
+                              });
+                            }
+                          });
+                        });
                       }
                       Navigator.pop(context);
                     },

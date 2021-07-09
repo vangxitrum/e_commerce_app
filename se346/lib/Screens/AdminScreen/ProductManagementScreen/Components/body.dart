@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/screen_header.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/list_item.dart';
 import 'package:se346/Screens/AdminScreen/ProductManagementScreen/Components/testData.dart';
+import 'package:se346/components/local_notification_service.dart';
 
 
 import 'add_product_screen.dart';
@@ -21,6 +22,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   late String idProduct = "";
+  final String token = "ez9CnphmSW6etjk2urgv4Y:APA91bGtYdBTXraWIoy7Y6zygWGA1UPF5zYdDCBntH-Z4YI5Rkup5a6NiiyJLUPE34Z1KGdbrDRYVvl6WtCVhkjtCULEP-wB3JIMRWfZp7dcdZOVRCNCntARIVdFsxCXQ2upQhYsENKZ";
+
 
   @override
   void initState() {
