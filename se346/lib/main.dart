@@ -28,28 +28,24 @@ Future<void> saveTokenToDatabase(String token) async {
   await FirebaseFirestore.instance
       .collection('users')
       .snapshots().listen((event) {
-     if(event.docs.isEmpty) {
-       if(start){
-         start = false;
-         newUserToken(userId, token);
-       }
-     }
-     else{
-       if(start){
-         start = false;
-         List<DocumentSnapshot> list = event.docs.where((element) => element['uid'] == userId).toList();
-         if(list.isEmpty){
-           newUserToken(userId, token);
-         }
-         else{
-           list.first.reference.update(
-            {
-            'tokens' : token
-            });
-         }
-
-       }
-     }
+        if(start){
+          start = false;
+          if(event.docs.isEmpty) {
+            newUserToken(userId, token);
+          }
+          else{
+            List<DocumentSnapshot> list = event.docs.where((element) => element['uid'] == userId).toList();
+            if(list.isEmpty){
+              newUserToken(userId, token);
+            }
+            else{
+              list.first.reference.update(
+                  {
+                    'tokens' : token
+                  });
+            }
+          }
+        }
   });
 }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:se346/Screens/AdminScreen/Components/text_field_editor.dart';
 import 'package:se346/components/AlterDialog.dart';
 import 'package:se346/components/image_button.dart';
+import 'package:se346/components/local_notification_service.dart';
 import 'package:se346/constants.dart';
 
 
@@ -137,7 +138,20 @@ class _BodyState extends State<Body> {
                         'sale' : sale,
                       }).then((value) => print("User Updated"))
                         .catchError((error) => print("Failed to update user: $error"));
-
+                      if(sale > 0){
+                        bool start = true;
+                        String title = "Game Store";
+                        String body = _product['name'] + " đang giảm " + sale.toString() + "%";
+                        FirebaseFirestore.instance.collection('users').snapshots()
+                        .listen((event) {
+                          if(start){
+                            start = false;
+                            event.docs.forEach((element) {
+                              sendPushMessage(element['tokens'], title, body);
+                            });
+                          }
+                        });
+                      }
                       Navigator.of(context).pop();
                     },
                     child: Text("Save"),
